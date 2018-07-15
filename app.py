@@ -74,7 +74,7 @@ def handle_message(event):
                 '''
                 kartuPemain = helperKartu.bagiKartu(banyakPemain)
                 for i in range(0,banyakPemain):
-                    gambar = helperKartu.gambarKartuDiTangan(720,kartu,kartuPemain[i])
+                    gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
                     pathGambar = os.path.join('static','test',str(i)+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+os.path.join('static','test',str(i)+'.png')
