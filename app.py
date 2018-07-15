@@ -63,12 +63,6 @@ def handle_message(event):
                     pass
                 else:
                     os.mkdir(os.path.join(APP_ROOT,'static','test'))
-                for i in os.listdir(os.path.join(APP_ROOT,'static','test')):
-                    os.remove(os.path.join(APP_ROOT,'static','test',i))
-                for i in range(0,banyakPemain):
-                    pathGambar = 'static/test/'+str(i)+'.png'
-                    if(os.path.isfile(pathGambar)):
-                        os.remove(pathGambar)
                 '''
                 #cek apakah dict kartu kosong
                 if(kartu):
@@ -86,6 +80,7 @@ def handle_message(event):
                     urlGambar = request.host_url+os.path.join('static','test',str(i)+'.png')
                     line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
                 balas(event,'Done')
-
+    elif(isi == 'hapusTest'):
+        os.remove(os.path.join(APP_ROOT,'static','test'))
 if __name__ == "__main__":
     app.run()
