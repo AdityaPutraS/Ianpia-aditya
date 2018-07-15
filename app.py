@@ -105,7 +105,7 @@ def handle_message(event):
             line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))   
     elif(isi == 'debug'):
             line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'APP_ROOT : '+APP_ROOT))
-    elif(isi == 'listdir'):
+    elif(isi == 'listtest'):
         if(os.path.exists(os.path.join(APP_ROOT,'test'))):
             isi = ''
             for i in os.listdir('test'):
@@ -113,5 +113,10 @@ def handle_message(event):
             line_bot_api.push_message(event.source.user_id,TextSendMessage(text = isi))
         else:
             line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada')) 
+    elif*isi == 'listdir'):
+            isi = ''
+            for i in os.listdir():
+                isi = isi + i + ' '
+            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = isi))
 if __name__ == "__main__":
     app.run()
