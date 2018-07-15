@@ -63,6 +63,13 @@ def handle_message(event):
                     pass
                 else:
                     os.mkdir('test')
+                #cek apakah dict kartu kosong
+                if(kartu):
+                    #tidak kosong
+                    pass
+                else:
+                    #kosong
+                    kartu = helperKartu.loadGambar()
                 for i in range(0,banyakPemain):
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
                     urlGambar = 'test/'+str(i)+'.png'
