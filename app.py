@@ -87,5 +87,18 @@ def handle_message(event):
                     os.remove(pathGambar)
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Done hapus '+str(i)))
                 '''
+    elif(isi == 'cekTest'):
+        if(os.path.exists(os.path.join(APP_ROOT,'test'))):
+                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
+                else:
+                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
+    elif(isi == 'hapusTest'):
+        if(os.path.exists(os.path.join(APP_ROOT,'test'))):
+            os.remove(os.path.join(APP_ROOT,'test'))
+            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
+        else:
+            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))   
+	elif(isi == 'debug'):
+			line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'APP_ROOT : '+APP_ROOT))
 if __name__ == "__main__":
     app.run()
