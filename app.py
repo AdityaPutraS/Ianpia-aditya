@@ -22,7 +22,7 @@ channel_access_token = os.getenv('CHANNEL_ACCESS', None)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 APP_ROOT = '/app'
-
+kartu = helperKartu.loadGambar()
 #Bare minimum
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -59,15 +59,15 @@ def handle_message(event):
             else:
                 #Jumlah pemain valid
                 
-                if(os.path.exists(os.path.join(APP_ROOT,'test'))):
+                if(os.path.exists(os.path.join(APP_ROOT,'static','test'))):
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
                 else:
-                    os.mkdir(os.path.join(APP_ROOT,'test'))
+                    os.mkdir(os.path.join(APP_ROOT,'static','test'))
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
-                if(os.path.exists(os.path.join(APP_ROOT,'test'))):
+                if(os.path.exists(os.path.join(APP_ROOT,'static','test'))):
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
                 else:
-                    os.mkdir(os.path.join(APP_ROOT,'test'))
+                    os.mkdir(os.path.join(APP_ROOT,'static','test'))
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
                 '''
                 #cek apakah dict kartu kosong
@@ -78,14 +78,13 @@ def handle_message(event):
                     #kosong
                     kartu = helperKartu.loadGambar()
                 '''
-                kartu = helperKartu.loadGambar()
                 kartuPemain = helperKartu.bagiKartu(banyakPemain)
                 for i in range(0,banyakPemain):
                     gambar = helperKartu.gambarKartuDiTangan(720,kartu,kartuPemain[i])
-                    pathGambar = os.path.join('test',str(i)+'.jpg')
+                    pathGambar = os.path.join('static','test',str(i)+'.jpg')
                     gambar.save(pathGambar)
-                    urlGambar = request.host_url+os.path.join('test',str(i)+'.jpg')
-                    line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
+                    urlGambar = request.host_url+os.path.join('static','test',str(i)+'.jpg')
+                    line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
                 balas(event,'Done')
                 '''
                 for i in range(0,banyakPemain):
@@ -93,31 +92,5 @@ def handle_message(event):
                     os.remove(pathGambar)
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Done hapus '+str(i)))
                 '''
-    elif(isi == 'cekTest'):
-        if(os.path.exists(os.path.join(APP_ROOT,'test'))):
-            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
-        else:
-            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
-    elif(isi == 'hapusTest'):
-        if(os.path.exists(os.path.join(APP_ROOT,'test'))):
-            os.remove(os.path.join(APP_ROOT,'test'))
-            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
-        else:
-            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))   
-    elif(isi == 'debug'):
-            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'APP_ROOT : '+APP_ROOT))
-    elif(isi == 'listtest'):
-        if(os.path.exists(os.path.join(APP_ROOT,'test'))):
-            isi = ''
-            for i in os.listdir('test'):
-                isi = isi + i + ' '
-            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = isi))
-        else:
-            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada')) 
-    elif(isi == 'listdir'):
-            isi = ''
-            for i in os.listdir():
-                isi = isi + i + ' '
-            line_bot_api.push_message(event.source.user_id,TextSendMessage(text = isi))
 if __name__ == "__main__":
     app.run()
