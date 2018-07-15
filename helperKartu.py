@@ -75,7 +75,7 @@ def gambarKartuDiTangan(size,gambarKartu,kartuTangan):
         offsetX = int((size-(100+(12)*offKarX))/2)
     #offsetY = int((size/2)-(150/2))
     offsetY = int((size-(150+math.ceil(banyak/13-1)*offKarY))/2)
-    background = Image.new('RGBA', (size,size), (255,255,255))
+    background = Image.new('RGB', (size,size), (255,255,255))
     no = 0
     for i in range(0,banyak):
         nomor, tipe = kartuTangan[no].split()
