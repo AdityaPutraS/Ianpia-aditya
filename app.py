@@ -74,13 +74,14 @@ def handle_message(event):
                 '''
                 for i in range(0,banyakPemain):
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
-                    urlGambar = 'test/'+str(i)+'.png'
-                    gambar.save(urlGambar)
+                    pathGambar = 'test/'+str(i)+'.png'
+                    gambar.save(pathGambar)
+                    urlGambar = request.host_url+os.path.join(test,str(i)+'.png')
                     line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
                 balas(event,'Done')
                 for i in range(0,banyakPemain):
-                    urlGambar = 'test/'+str(i)+'.png'
-                    os.remove(urlGambar)
+                    pathGambar = 'test/'+str(i)+'.png'
+                    os.remove(pathGambar)
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Done hapus '+str(i)))
 if __name__ == "__main__":
     app.run()
