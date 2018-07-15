@@ -1,5 +1,7 @@
 from flask import Flask, request, abort
 import os
+import helperKartu
+from PIL import Image
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -8,7 +10,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
 )
 
 app = Flask(__name__)
@@ -19,6 +21,7 @@ channel_access_token = os.getenv('CHANNEL_ACCESS', None)
 
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
+kartu = {}
 
 #Bare minimum
 @app.route("/callback", methods=['POST'])
@@ -38,13 +41,38 @@ def callback():
 
     return 'OK'
 
-
+def balas(event,pesan):
+	line_bot_api.reply_message(
+				event.reply_token,
+				TextSendMessage(text=pesan)
+			)
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-	#Simple Echo
-	line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=event.message.text)
-        )
+	isi = event.message.text
+	if('bagiKartu' in isi):
+		banyakPemain = isi[10:][:len(isi)-11] #bagiKartu(10) <--- mengambil hanya 10 nya saja
+		if(banyakPemain > 7):
+			balas(event,'Pemain maksimal 7 orang')
+		else:
+			if(banyakPemain < 2):
+				balas(event,'Pemain minimal 2 orang')
+			else:
+				#Jumlah pemain valid
+				kartuPemain = helperKartu.bagiKartu(banyakPemain)
+				if(os.path.exists('test')):
+					pass
+				else:
+					os.mkdir('test')
+				for i in range(0,banyakPemain):
+					gambar = gambarKartuDiTangan(360,kartu,kartuPemain[i])
+					urlGambar = 'test/'+str(i)+'.png'
+					gambar.save(urlGambar)
+					line_bot_api.push_message(event.source.userId,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
+				balas(event,'Done')
+				for i in range(0,banyakPemain):
+					urlGambar = 'test/'+str(i)+'.png'
+					os.remove(urlGambar)
+					line_bot_api.push_message(event.source.userId,TextSendMessage(text = 'Done hapus '+str(i)))
 if __name__ == "__main__":
+	kartu = helperKartu.loadGambar()
     app.run()

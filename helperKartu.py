@@ -73,7 +73,6 @@ def gambarKartuDiTangan(size,gambarKartu,kartuTangan):
         offsetX = int((size-(100+(banyak-1)*offKarX))/2)
     else:
         offsetX = int((size-(100+(12)*offKarX))/2)
-    ic(offsetX)
     #offsetY = int((size/2)-(150/2))
     offsetY = int((size-(150+math.ceil(banyak/13-1)*offKarY))/2)
     background = Image.new('RGBA', (size,size), (255,255,255))
