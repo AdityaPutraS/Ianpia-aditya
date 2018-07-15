@@ -60,15 +60,9 @@ def handle_message(event):
                 #Jumlah pemain valid
                 
                 if(os.path.exists(os.path.join(APP_ROOT,'static','test'))):
-                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
+                    pass
                 else:
                     os.mkdir(os.path.join(APP_ROOT,'static','test'))
-                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
-                if(os.path.exists(os.path.join(APP_ROOT,'static','test'))):
-                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
-                else:
-                    os.mkdir(os.path.join(APP_ROOT,'static','test'))
-                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
                 '''
                 #cek apakah dict kartu kosong
                 if(kartu):
@@ -84,7 +78,7 @@ def handle_message(event):
                     pathGambar = os.path.join('static','test',str(i)+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+os.path.join('static','test',str(i)+'.png')
-                    line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
+                    line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
                 balas(event,'Done')
                 '''
                 for i in range(0,banyakPemain):
