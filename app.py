@@ -81,9 +81,9 @@ def handle_message(event):
                 kartuPemain = helperKartu.bagiKartu(banyakPemain)
                 for i in range(0,banyakPemain):
                     gambar = helperKartu.gambarKartuDiTangan(720,kartu,kartuPemain[i])
-                    pathGambar = os.path.join('static','test',str(i)+'.jpg')
+                    pathGambar = os.path.join('static','test',str(i)+'.png')
                     gambar.save(pathGambar)
-                    urlGambar = request.host_url+os.path.join('static','test',str(i)+'.jpg')
+                    urlGambar = request.host_url+os.path.join('static','test',str(i)+'.png')
                     line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
                 balas(event,'Done')
                 '''

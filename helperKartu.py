@@ -55,7 +55,7 @@ def loadGambar():
     for nomor in urutan:
         tmp = {}
         for tip in tipe:
-            dirKartu = 'kartu/'+nomor+' '+tip+'.png'
+            dirKartu = 'static/kartu/'+nomor+' '+tip+'.png'
             tmp[tip] = Image.open(dirKartu)
             tmp[tip] = tmp[tip].resize((100,150),Image.ANTIALIAS)
             #tmp[tip] = tmp[tip].resize((int(tmp[tip].size[0]/2),int(tmp[tip].size[1]/2)),Image.ANTIALIAS)
@@ -75,7 +75,7 @@ def gambarKartuDiTangan(size,gambarKartu,kartuTangan):
         offsetX = int((size-(100+(12)*offKarX))/2)
     #offsetY = int((size/2)-(150/2))
     offsetY = int((size-(150+math.ceil(banyak/13-1)*offKarY))/2)
-    background = Image.new('RGB', (size,size), (255,255,255))
+    background = Image.new('RGBA', (size,size), (255,255,255))
     no = 0
     for i in range(0,banyak):
         nomor, tipe = kartuTangan[no].split()
