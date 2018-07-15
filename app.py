@@ -63,8 +63,8 @@ def handle_message(event):
                     pass
                 else:
                     os.mkdir(os.path.join(APP_ROOT,'static','test'))
-				for i in os.listdir(os.path.join(APP_ROOT,'static','test')):
-					os.remove(os.path.join(APP_ROOT,'static','test',i))
+                for i in os.listdir(os.path.join(APP_ROOT,'static','test')):
+                    os.remove(os.path.join(APP_ROOT,'static','test',i))
                 for i in range(0,banyakPemain):
                     pathGambar = 'static/test/'+str(i)+'.png'
                     if(os.path.isfile(pathGambar)):
