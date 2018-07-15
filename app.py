@@ -64,7 +64,7 @@ def handle_message(event):
                 else:
                     os.mkdir('test')
                 for i in range(0,banyakPemain):
-                    gambar = gambarKartuDiTangan(360,kartu,kartuPemain[i])
+                    gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
                     urlGambar = 'test/'+str(i)+'.png'
                     gambar.save(urlGambar)
                     line_bot_api.push_message(event.source.userId,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
