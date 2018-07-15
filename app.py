@@ -78,8 +78,8 @@ def handle_message(event):
                     #kosong
                     kartu = helperKartu.loadGambar()
                 '''
-				kartu = helperKartu.loadGambar()
-				kartuPemain = helperKartu.bagiKartu(banyakPemain)
+                kartu = helperKartu.loadGambar()
+                kartuPemain = helperKartu.bagiKartu(banyakPemain)
                 for i in range(0,banyakPemain):
                     gambar = helperKartu.gambarKartuDiTangan(720,kartu,kartuPemain[i])
                     pathGambar = os.path.join('test',str(i)+'.jpg')
