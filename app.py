@@ -76,7 +76,7 @@ def handle_message(event):
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
                     pathGambar = 'test/'+str(i)+'.png'
                     gambar.save(pathGambar)
-                    urlGambar = request.host_url+os.path.join(test,str(i)+'.png')
+                    urlGambar = request.host_url+os.path.join('test',str(i)+'.png')
                     line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
                 balas(event,'Done')
                 for i in range(0,banyakPemain):
