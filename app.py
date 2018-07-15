@@ -21,7 +21,6 @@ channel_access_token = os.getenv('CHANNEL_ACCESS', None)
 
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
-kartu = helperKartu.loadGambar()
 APP_ROOT = '/app'
 
 #Bare minimum
@@ -59,7 +58,7 @@ def handle_message(event):
                 balas(event,'Pemain minimal 2 orang')
             else:
                 #Jumlah pemain valid
-                kartuPemain = helperKartu.bagiKartu(banyakPemain)
+                
                 if(os.path.exists(os.path.join(APP_ROOT,'test'))):
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
                 else:
@@ -79,8 +78,10 @@ def handle_message(event):
                     #kosong
                     kartu = helperKartu.loadGambar()
                 '''
+				kartu = helperKartu.loadGambar()
+				kartuPemain = helperKartu.bagiKartu(banyakPemain)
                 for i in range(0,banyakPemain):
-                    gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
+                    gambar = helperKartu.gambarKartuDiTangan(720,kartu,kartuPemain[i])
                     pathGambar = os.path.join('test',str(i)+'.jpg')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+os.path.join('test',str(i)+'.jpg')
