@@ -64,7 +64,7 @@ def handle_message(event):
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
                 else:
                     os.mkdir(os.path.join(APP_ROOT,'test'))
-                    ine_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
+                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
                 '''
                 #cek apakah dict kartu kosong
                 if(kartu):
