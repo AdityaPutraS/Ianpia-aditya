@@ -50,7 +50,7 @@ def balas(event,pesan):
 def handle_message(event):
     isi = event.message.text
     if('bagiKartu' in isi):
-        banyakPemain = isi[10:][:len(isi)-11] #bagiKartu(10) <--- mengambil hanya 10 nya saja
+        banyakPemain = int(isi[10:][:len(isi)-11]) #bagiKartu(10) <--- mengambil hanya 10 nya saja
         if(banyakPemain > 7):
             balas(event,'Pemain maksimal 7 orang')
         else:
