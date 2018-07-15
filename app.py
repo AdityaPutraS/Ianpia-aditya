@@ -22,7 +22,7 @@ channel_access_token = os.getenv('CHANNEL_ACCESS', None)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 kartu = helperKartu.loadGambar()
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+APP_ROOT = '/app'
 
 #Bare minimum
 @app.route("/callback", methods=['POST'])
@@ -61,6 +61,11 @@ def handle_message(event):
                 #Jumlah pemain valid
                 kartuPemain = helperKartu.bagiKartu(banyakPemain)
                 if(os.path.exists(os.path.join(APP_ROOT,'test'))):
+                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
+                else:
+                    os.mkdir(os.path.join(APP_ROOT,'test'))
+                    line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
+				if(os.path.exists(os.path.join(APP_ROOT,'test'))):
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
                 else:
                     os.mkdir(os.path.join(APP_ROOT,'test'))
