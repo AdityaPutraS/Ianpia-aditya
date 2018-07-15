@@ -65,7 +65,7 @@ def handle_message(event):
                 else:
                     os.mkdir(os.path.join(APP_ROOT,'test'))
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test tidak ada'))
-				if(os.path.exists(os.path.join(APP_ROOT,'test'))):
+                if(os.path.exists(os.path.join(APP_ROOT,'test'))):
                     line_bot_api.push_message(event.source.user_id,TextSendMessage(text = 'Test ada'))
                 else:
                     os.mkdir(os.path.join(APP_ROOT,'test'))
