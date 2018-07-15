@@ -65,8 +65,8 @@ def handle_message(event):
                     os.mkdir(os.path.join(APP_ROOT,'static','test'))
                 for i in range(0,banyakPemain):
                     pathGambar = 'static/test/'+str(i)+'.png'
-					if(os.path.isfile(pathGambar)):
-						os.remove(pathGambar)
+                    if(os.path.isfile(pathGambar)):
+                        os.remove(pathGambar)
                 '''
                 #cek apakah dict kartu kosong
                 if(kartu):
