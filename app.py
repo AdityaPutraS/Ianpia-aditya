@@ -22,6 +22,7 @@ channel_access_token = os.getenv('CHANNEL_ACCESS', None)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 kartu = helperKartu.loadGambar()
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 #Bare minimum
 @app.route("/callback", methods=['POST'])
@@ -59,10 +60,10 @@ def handle_message(event):
             else:
                 #Jumlah pemain valid
                 kartuPemain = helperKartu.bagiKartu(banyakPemain)
-                if(os.path.exists('test')):
+                if(os.path.exists(os.path.join(APP_ROOT,'test'))):
                     pass
                 else:
-                    os.mkdir('test')
+                    os.mkdir(os.path.join(APP_ROOT,'test'))
                 '''
                 #cek apakah dict kartu kosong
                 if(kartu):
@@ -74,7 +75,7 @@ def handle_message(event):
                 '''
                 for i in range(0,banyakPemain):
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
-                    pathGambar = 'test/'+str(i)+'.png'
+                    pathGambar = os.path.join(APP_ROOT,'test',str(i)+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+os.path.join('test',str(i)+'.png')
                     line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
