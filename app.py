@@ -102,7 +102,7 @@ def handle_message(event):
                     pathGambar = os.path.join('static','test',str(i)+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+os.path.join('static','test',str(i)+'.png')
-                    line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
+                    line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = None))
                 balas(event,'Done')
     elif(isi == 'hapusTest'):
         shutil.rmtree('static/test')
