@@ -110,7 +110,7 @@ def handle_message(event):
         else:
             balas(event,'Tidak bisa memulai permainan di 1:1 chat')
         #Kirim button ke group/room
-        if(gameValid):
+        if(valid):
             buttons_template = ButtonsTemplate(
                 title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
                     PostbackAction(label='Join', data=dataGameKartu),
