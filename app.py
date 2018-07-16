@@ -1,5 +1,5 @@
 from flask import Flask, request, abort, after_this_request
-import os,shutil,json,math,io
+import os,shutil,json,math,io,tempfile
 import helperKartu,helperData
 from PIL import Image
 
