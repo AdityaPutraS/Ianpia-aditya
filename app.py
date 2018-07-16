@@ -62,7 +62,7 @@ def handle_postback(event):
                 else:
                     #belum pernah gabung
                     kB[isiPostback[1]][isiPostback[2]] = []
-                    os.mkdir('static/'+isiPostback[1]+' '+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
+                    os.mkdir('static/'+isiPostback[1]+'-'+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
                     helperData.simpan(kB,'static/'+'kB')
                     line_bot_api.push_message(
                         isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
@@ -88,8 +88,8 @@ def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/waktuMulai')
     if(len(tIM)>=50):
         #kasus spesial
-        path1='static/'+idGame+' '+waktuMulai[idGame]+'/'+uID
-        path2='static/'+idGame+' '+waktuMulai[idGame]+'/'+uID+'_2'
+        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID
+        path2='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+'_2'
         buatDirAman(path1)
         buatDirAman(path2)
         letak1 = helperKartu.genImagemap(path1,tIM[:25])
@@ -104,7 +104,6 @@ def gambarImagemap(idGame,uID,tIM):
             aksi2.append(mesTmp)
         url1 = request.host_url+path1
         url2 = request.host_url+path2
-        pm(uID,url2)
         line_bot_api.push_message(uID,[
             ImagemapSendMessage(base_url=url1,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
             ImagemapSendMessage(base_url=url2,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
@@ -114,7 +113,7 @@ def gambarImagemap(idGame,uID,tIM):
         hapusDirAman(path2,uID)
     else:
         aksi = []
-        path1='static/'+idGame+' '+waktuMulai[idGame]+'/'+uID
+        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID
         buatDirAman(path1)
         letak = helperKartu.genImagemap(path1,tIM)
         for let in letak:
@@ -312,7 +311,7 @@ def handle_message(event):
         else:
             waktuMulai = helperData.buka('static/'+'waktuMulai')
             if(idGame in waktuMulai):
-                hapusDirAman('static/'+idGame+' '+waktuMulai[idGame],uId)
+                hapusDirAman('static/'+idGame+'-'+waktuMulai[idGame],uId)
                 kB = helperData.buka('static/'+'kB')
                 turn = helperData.buka('static/'+'turn')
                 urutanMain = helperData.buka('static/'+'urutanMain')
