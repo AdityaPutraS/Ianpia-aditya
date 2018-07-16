@@ -1,5 +1,5 @@
 from flask import Flask, request, abort, after_this_request
-import os,shutil,json,math
+import os,shutil,json,math,errno
 import helperKartu,helperData
 from PIL import Image
 
@@ -72,45 +72,55 @@ def balas(event,pesan):
                 event.reply_token,
                 TextSendMessage(text=pesan)
             )
-def gambarImagemap(event,tIM):
-
-    if isinstance(event.source,SourceGroup):
-        idGame = event.source.group_id
-    elif isinstance(event.source,SourceRoom):
-        idGame = event.source.room_id
-    else:
-        idGame = ''
-
+def buatDirAman(pathDir):
+    try:
+        os.mkdir(pathDir)
+    except OSError as exc:
+        pass
+def hapusDirAman(pathDir):
+    try
+        shutil.rmtree(pathDir)
+    except OSError as exc:
+        pass
+def gambarImagemap(idGame,uID,tIM):
     if(len(tIM)>=50):
         #kasus spesial
-        letak1 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM[:25])
-        os.mkdir('static/'+idGame+'/'+event.source.user_id+'_2')
-        letak2 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id+'_2',tIM[25:])
+        buatDirAman('static/'+idGame+'/'+event.source.uID)
+        buatDirAman('static/'+idGame+'/'+event.source.uID+'_2')
+        letak1 = helperKartu.genImagemap('static/'+idGame+'/'+uID,tIM[:25])
+        letak2 = helperKartu.genImagemap('static/'+idGame+'/'+uID+'_2',tIM[25:])
         aksi1 = []
         for let in letak1:
-            mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
+            mesTmp = MessageImagemapAction(text='Kartu '+let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi1.append(mesTmp)
         aksi2 = []
         for let in letak2:
-            mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
+            mesTmp = MessageImagemapAction(text='Kartu '+let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi2.append(mesTmp)
-        line_bot_api.reply_message(event.reply_token,[
-            ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
-            ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id+'_2',alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
+        line_bot_api.push_message(uID,[
+            ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+uID,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
+            ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+uID+'_2',alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
             ]
         )
     else:
         aksi = []
-        letak = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM)
+        buatDirAman('static/'+idGame+'/'+uID)
+        letak = helperKartu.genImagemap('static/'+idGame+'/'+uID,tIM)
         for let in letak:
-            mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
+            mesTmp = MessageImagemapAction(text='Kartu '+let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi.append(mesTmp)
-        line_bot_api.push_message(idGame,TextSendMessage(text=str(len(aksi))))
-        line_bot_api.reply_message(event.reply_token,ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi))
+        line_bot_api.push_message(uID,[
+            ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+uID,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi)
+            ]
+        )
+    hapusDirAman('static/'+idGame+'/'+uID)
+    hapusDirAman('static/'+idGame+'/'+uID+'_2')
 def tanya(idGame,Uid):
     kB = helperData.buka('static/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
-    
+    line_bot_api.push_message(uID,
+        TextSendMessage(text='Klik kartu yang ingin kamu pilih (minimal 1,maksimal 4)')
+    )
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     isi = event.message.text
@@ -159,7 +169,7 @@ def handle_message(event):
             else:
                 os.mkdir(os.path.join(APP_ROOT,'static',idGame))
                 kB[idGame] = {}
-                turn[idGame] = 0
+                turn[idGame] = 1
                 helperData.simpan(kB,'static/'+'kB')
                 helperData.simpan(turn,'static/'+'turn')
                 buttons_template = ButtonsTemplate(
@@ -179,6 +189,8 @@ def handle_message(event):
                 turn = helperData.buka('static/'+'turn')
                 kB = helperData.buka('static/'+'kB')
                 urutanMain = helperData.buka('static/'+'urutanMain')
+                pilihan = helperData.buka('static/'+'pilihan')
+                pilihan[idGame] = {}
                 turn[idGame] = 0
                 banyakPemain = len(kB[idGame])
                 tmpKartu = helperKartu.bagiKartu(banyakPemain)
@@ -187,35 +199,57 @@ def handle_message(event):
                 tmpUrutan = []
                 for pemain in kB[idGame]:
                     kB[idGame][pemain] = tmpKartu[no]
-                    gambar = helperKartu.gambarKartuDiTangan(360,tmpKartu[no])[0]
-                    pathGambar = os.path.join('static',idGame,pemain+'.png')
-                    gambar.save(pathGambar)
-                    urlGambar = request.host_url+pathGambar
-                    urlPrev = request.host_url+os.path.join('static','res','clickDisini.jpg')
-                    line_bot_api.push_message(pemain,[
-                        TextSendMessage(text='Ini Kartumu'),
-                        ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlPrev)
-                        ]
-                    )
-                    no += 1
+                    gambarImagemap(idGame,pemain,tmpKartu[no])
+                    pilihan[idGame][pemain] = []
                     nama = line_bot_api.get_profile(pemain).display_name
-                    urutan = urutan + nama + '-> '
                     tmpUrutan.append(pemain)
+                    urutan = urutan + nama + '->'
+                    no+=1
                 urutan += 'Kembali ke awal'
-                urutanMain[idGame] = tmpUrutan
+                urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
                 namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
                 line_bot_api.push_message(idGame,[
                     TextSendMessage(text = 'Urutan bermain : '+urutan),
-                    TextSendMessage(text = 'Dimulai dari kartu 2 oleh '+ namaFirst)
+                    TextSendMessage(text = 'Dimulai dari kartu 2 (wajik,hati,sekop,keriting) oleh '+ namaFirst)
                     ]
                 )
                 helperData.simpan(kB,'static/'+'kB')
                 helperData.simpan(turn,'static/'+'turn')
                 helperData.simpan(urutanMain,'static/'+'urutanMain')
+                helperData.simpan(pilihan,'static/'+'pilihan')
                 tanya(idGame,urutanMain[idGame][0])
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
-            
+    elif(isi[:6] == 'Kartu '):
+        tmpI,nomorKartu,tipeKartu = isi.split()
+        pilihan = helperData.buka('static/'+'pilihan')
+        turn = helperData.buka('static/'+'turn')
+        kB = helperData.buka('static/'+'kB')
+        urutanMain = helperData.buka('static/'+'urutanMain')
+        #cek apakah sekarang gilirannya dia
+        if(urutanMain[idGame][turn[idGame]] == uId):
+            #cek apakah yang dipilih sudah 4
+            if(len(pilihan[idGame][uId])==4):
+                listKartu = pilihan[idGame][uId][0]+', '+pilihan[idGame][uId][1]+', '+pilihan[idGame][uId][2]+', '+pilihan[idGame][uId][3]
+                confirm_template = ConfirmTemplate(text='Kamu sudah memilih 4 kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
+                    MessageAction(label='Submit', text='Gaskeun Bosq'),
+                    MessageAction(label='Ulang', text='Aku mau ulang'),
+                ])
+                line_bot_api.push_message(uId,[
+                    TextSendMessage(text = 'Pilihanmu adalah : '+listKartu)
+                    TemplateSendMessage(alt_text='Sudah lebih dari 4', template=confirm_template)
+                ])
+            else:
+                #cek apakah beneran punya kartunya
+                namaKartu = nomorKartu+' '+tipeKartu
+                if(namaKartu in kB[idGame][uId]):
+                    #valid
+                    pilihan[idGame][uId].append(namaKartu)
+                else:
+                    #tidak valid
+                    balas(event,'Kamu tidak punya kartu '+namaKartu)
+        else:
+            balas(event,'Sekarang bukan giliranmu')
     elif(isi == '.berhenti'):
         #check apakah game sudah ada
         if(idGame == ''):
@@ -257,6 +291,6 @@ def handle_message(event):
         balas(event,text)
     elif(isi == 'imagemap'):
         tIM = helperKartu.bagiKartu(1)
-        gambarImagemap(event,tIM[0])
+        gambarImagemap(idGame,event.source.user_id,tIM[0])
 if __name__ == "__main__":
     app.run()
