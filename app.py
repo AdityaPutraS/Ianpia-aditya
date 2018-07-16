@@ -60,6 +60,7 @@ def handle_postback(event):
                 else:
                     #belum pernah gabung
                     kB[isiPostback[1]][isiPostback[2]] = []
+                    os.mkdir('static/'+isiPostback[1]+'/'+isiPostback[2])
                     helperData.simpan(kB,'static/'+'kB')
                     line_bot_api.push_message(
                         isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
