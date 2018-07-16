@@ -227,11 +227,11 @@ def handle_message(event):
             letak2 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id+'_2',tIM[0][25:])
             aksi1 = []
             for let in letak1:
-                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1])
+                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
                 aksi1.append(mesTmp)
             aksi2 = []
             for let in letak2:
-                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1])
+                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
                 aksi2.append(mesTmp)
             line_bot_api.reply_message(event.reply_token,[
                 ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
@@ -242,7 +242,7 @@ def handle_message(event):
             aksi = []
             letak = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM[0])
             for let in letak:
-                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1])
+                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
                 aksi.append(mesTmp)
             line_bot_api.reply_message(event.reply_token,ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi))
 if __name__ == "__main__":
