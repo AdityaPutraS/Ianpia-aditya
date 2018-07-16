@@ -78,7 +78,7 @@ def buatDirAman(pathDir):
     except OSError as exc:
         pass
 def hapusDirAman(pathDir):
-    try
+    try:
         shutil.rmtree(pathDir)
     except OSError as exc:
         pass
