@@ -118,9 +118,11 @@ def gambarImagemap(idGame,uID,tIM):
 def tanya(idGame,Uid):
     kB = helperData.buka('static/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
-    line_bot_api.push_message(uID,
+    line_bot_api.push_message(Uid,
         TextSendMessage(text='Klik kartu yang ingin kamu pilih (minimal 1,maksimal 4)')
     )
+def pm(id,isi):
+    line_bot_api.push_message(id,TextSendMessage(text=isi))
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     isi = event.message.text
@@ -227,6 +229,8 @@ def handle_message(event):
         kB = helperData.buka('static/'+'kB')
         urutanMain = helperData.buka('static/'+'urutanMain')
         #cek apakah sekarang gilirannya dia
+        pm(uId,'turn : '+str(turn[idGame]))
+        pm(uId,'urutan : '+urutanMain[idGame][0])
         if(urutanMain[idGame][turn[idGame]] == uId):
             #cek apakah yang dipilih sudah 4
             if(len(pilihan[idGame][uId])==4):
@@ -262,6 +266,10 @@ def handle_message(event):
                     balas(event,'Kamu tidak punya kartu '+namaKartu)
         else:
             balas(event,'Sekarang bukan giliranmu')
+        helperData.simpan(kB,'static/'+'kB')
+        helperData.simpan(turn,'static/'+'turn')
+        helperData.simpan(urutanMain,'static/'+'urutanMain')
+        helperData.simpan(pilihan,'static/'+'pilihan')
     elif(isi == '.berhenti'):
         #check apakah game sudah ada
         if(idGame == ''):
