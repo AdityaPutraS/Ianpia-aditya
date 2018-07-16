@@ -236,7 +236,7 @@ def handle_message(event):
                 if(uId in kB[id]):
                     idGame = id
             #cek apakah pemain terdaftar di permainan
-            if(idGame = ''):
+            if(idGame == ''):
                 #tidak terdaftar
                 pm(uId,'Anda belum ikut permainan dimanapun')
             else:
