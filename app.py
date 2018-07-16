@@ -220,10 +220,30 @@ def handle_message(event):
         balas(event,text)
     elif(isi == 'imagemap'):
         tIM = helperKartu.bagiKartu(1)
-        aksi = [MessageImagemapAction(text='Atas',area=ImagemapArea(x=0,y=0,width=1040,height=520)),
-                MessageImagemapAction(text='Bawah',area=ImagemapArea(x=0,y=520,width=1040,height=520))
-               ]
-        helperKartu.genImagemap('static/'+idGame,tIM[0])
-        line_bot_api.reply_message(event.reply_token,ImagemapSendMessage(base_url=request.host_url+'static/'+idGame,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi))
+        if(len(tIM)>50):
+            #kasus spesial
+            letak1 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM[0][:25])
+            os.mkdir('static/'+idGame+'/'+event.source.user_id+'_2')
+            letak2 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id+'_2',tIM[0][25:])
+            aksi1 = []
+            for let in letak1:
+                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1])
+                aksi1.append(mesTmp)
+            aksi2 = []
+            for let in letak2:
+                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1])
+                aksi2.append(mesTmp)
+            line_bot_api.reply_message(event.reply_token,[
+                ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
+                ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id+'_2',alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
+                ]
+            )
+        else:
+            aksi = []
+            letak = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM[0])
+            for let in letak:
+                mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1])
+                aksi.append(mesTmp)
+            line_bot_api.reply_message(event.reply_token,ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi))
 if __name__ == "__main__":
     app.run()

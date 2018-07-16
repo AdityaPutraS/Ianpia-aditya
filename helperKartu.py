@@ -62,10 +62,6 @@ def loadGambar(w,h):
         kartu[nomor] = tmp
     return kartu
 def gambarKartuDiTangan(sizeR,kartuTangan):
-    '''
-    Cara pakai:
-        gambar = gambarKartuDiTangan(720,['2 Hati','3 Sekop',...])
-    '''
     banyak = len(kartuTangan)
     gambarKartu = loadGambar(100,150)
     offKarX,offKarY = 110,160
@@ -78,10 +74,16 @@ def gambarKartuDiTangan(sizeR,kartuTangan):
     offsetY = int((size-(150+math.ceil(banyak/(kartuPerBaris)-1)*offKarY))/2)
     background = Image.new('RGB', (size,size), (0,0,0))
     no = 0
+    skala = sizeR/1040
+    wKartu,hKartu = int(100*skala),int(150*skala)
+    infoKartu=[]
     for i in range(0,banyak):
         nomor, tipe = kartuTangan[no].split()
         no += 1
         background.paste(gambarKartu[nomor][tipe],(offsetX,offsetY))
+        posX = int(offsetX*skala)
+        posY = int(offsetY*skala)
+        infoKartu.append(((nomor+' '+tipe),(posX,posY),(wKartu,hKartu)))
         offsetX += offKarX
         if(no % kartuPerBaris == 0):
             if((banyak-no) <= kartuPerBaris):
@@ -89,22 +91,24 @@ def gambarKartuDiTangan(sizeR,kartuTangan):
             else:
                 offsetX = int((size-(100+(kartuPerBaris-1)*offKarX))/2)
             offsetY += offKarY
-    return background.resize((sizeR,sizeR),Image.ANTIALIAS)
+    return [background.resize((sizeR,sizeR),Image.ANTIALIAS),infoKartu]
 def genImagemap(dirKar,kartuTangan):
     im = gambarKartuDiTangan(1040,kartuTangan)
+    letak = im[1]  #special
+    im = im[0]
     im.save(dirKar+'/1040.png')
     os.rename(dirKar+'/1040.png',dirKar+'/1040')
-    im.save(dirKar+'/1040.png')
-    im = gambarKartuDiTangan(700,kartuTangan)
+    im = gambarKartuDiTangan(700,kartuTangan)[0]
     im.save(dirKar+'/700.png')
     os.rename(dirKar+'/700.png',dirKar+'/700')
-    im = gambarKartuDiTangan(460,kartuTangan)
+    im = gambarKartuDiTangan(460,kartuTangan)[0]
     im.save(dirKar+'/460.png')
     os.rename(dirKar+'/460.png',dirKar+'/460')
-    im = gambarKartuDiTangan(300,kartuTangan)
+    im = gambarKartuDiTangan(300,kartuTangan)[0]
     im.save(dirKar+'/300.png')
     os.rename(dirKar+'/300.png',dirKar+'/300')
-    im = gambarKartuDiTangan(240,kartuTangan)
+    im = gambarKartuDiTangan(240,kartuTangan)[0]
     im.save(dirKar+'/240.png')
     os.rename(dirKar+'/240.png',dirKar+'/240')
+    return letak
     
