@@ -104,6 +104,7 @@ def gambarImagemap(idGame,uID,tIM):
             aksi2.append(mesTmp)
         url1 = request.host_url+path1
         url2 = request.host_url+path2
+        pm(uID,url2)
         line_bot_api.push_message(uID,[
             ImagemapSendMessage(base_url=url1,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
             ImagemapSendMessage(base_url=url2,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
