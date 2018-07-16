@@ -43,10 +43,10 @@ def bagiKartu(jumlahPemain):
         kartuPemain[pemain[i]].append(listKartu[no])
         no += 1
     return kartuPemain
-def loadGambar():
+def loadGambar(w,h):
     '''
     Cara pakai:
-        kartu = loadGambar()
+        kartu = loadGambar(100,150)
         maka variable kartu akan berisi gambar dari setiap kartu
     Cara mengambil gambar kartu tertentu :
         kartu['As']['Hati'] akan mengembalikan gambar kartu As Hati
@@ -55,37 +55,40 @@ def loadGambar():
     for nomor in urutan:
         tmp = {}
         for tip in tipe:
-            dirKartu = 'static/kartu/'+nomor+' '+tip+'.png'
+            dirKartu = 'kartu/'+nomor+' '+tip+'.png'
             tmp[tip] = Image.open(dirKartu)
-            tmp[tip] = tmp[tip].resize((100,150),Image.ANTIALIAS)
+            tmp[tip] = tmp[tip].resize((w,h),Image.ANTIALIAS)
             #tmp[tip] = tmp[tip].resize((int(tmp[tip].size[0]/2),int(tmp[tip].size[1]/2)),Image.ANTIALIAS)
         kartu[nomor] = tmp
     return kartu
-def gambarKartuDiTangan(size,gambarKartu,kartuTangan):
+def gambarKartuDiTangan(sizeR,kartuTangan):
     '''
     Cara pakai:
-        gambar = gambarKartuDiTangan(720,kartu,['2 Hati','3 Sekop',...])
+        gambar = gambarKartuDiTangan(720,['2 Hati','3 Sekop',...])
     '''
     banyak = len(kartuTangan)
-    offKarX = 20
-    offKarY = 50
-    if(banyak <= 13):
+    gambarKartu = loadGambar(100,150)
+    offKarX,offKarY = 110,160
+    size = 1040
+    kartuPerBaris = 9
+    if(banyak <= kartuPerBaris):
         offsetX = int((size-(100+(banyak-1)*offKarX))/2)
     else:
-        offsetX = int((size-(100+(12)*offKarX))/2)
-    #offsetY = int((size/2)-(150/2))
-    offsetY = int((size-(150+math.ceil(banyak/13-1)*offKarY))/2)
-    background = Image.new('RGBA', (size,size), (255,255,255))
+        offsetX = int((size-(100+(kartuPerBaris-1)*offKarX))/2)
+    ic(offsetX)
+    offsetY = int((size-(150+math.ceil(banyak/(kartuPerBaris)-1)*offKarY))/2)
+    ic(offsetY)
+    background = Image.new('RGB', (size,size), (0,0,0))
     no = 0
     for i in range(0,banyak):
         nomor, tipe = kartuTangan[no].split()
         no += 1
         background.paste(gambarKartu[nomor][tipe],(offsetX,offsetY))
         offsetX += offKarX
-        if(no % 13 == 0):
-            if((banyak-no) <= 13):
+        if(no % kartuPerBaris == 0):
+            if((banyak-no) <= kartuPerBaris):
                 offsetX = int((size-(100+((banyak-no)-1)*offKarX))/2)
             else:
-                offsetX = int((size-(100+(12)*offKarX))/2)
+                offsetX = int((size-(100+(kartuPerBaris-1)*offKarX))/2)
             offsetY += offKarY
-    return background
+    return background.resize((sizeR,sizeR),Image.ANTIALIAS)

@@ -74,20 +74,7 @@ def balas(event,pesan):
             )
 def tanya(idGame,Uid):
     kB = helperData.buka('static/'+'kB')
-    kartuDiTangan = kB[idGame][Uid]
-    tmpCol = []
-    for i in [x*4 for x in range(0,math.ceil(len(kartuDiTangan)/3))]:
-        tmpLi = kartuDiTangan[i:][:3]
-        tmpAction = []
-        for t in tmpLi:
-            tmpAction.append(PostbackAction(label=t,data='pKB '+idGame+' '+Uid+' '+t))
-        tmpCarCol = CarouselColumn(text='Minimal 1 kartu, maksimal 4 kartu',title = 'Pilih kartu', actions = tmpAction)
-        tmpCol.append(tmpCarCol) 
-    for i in [x*10 for x in range(0,math.ceil(len(tmpCol)/5))]:
-        carousel_template = CarouselTemplate(columns=tmpCol[i:][:4])
-        template_message = TemplateSendMessage(
-            alt_text='Pilih kartu', template=carousel_template)
-        line_bot_api.push_message(Uid, template_message)
+    kartuDiTangan = kB[idGame][Uid]4
     
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -113,22 +100,15 @@ def handle_message(event):
                 if(os.path.exists(os.path.join(APP_ROOT,'static','test'))):
                     shutil.rmtree('static/test')
                 os.mkdir(os.path.join(APP_ROOT,'static','test'))
-                '''
-                #cek apakah dict kartu kosong
-                if(kartu):
-                    #tidak kosong
-                    pass
-                else:
-                    #kosong
-                    kartu = helperKartu.loadGambar()
-                '''
+                
                 kartuPemain = helperKartu.bagiKartu(banyakPemain)
                 for i in range(0,banyakPemain):
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
                     pathGambar = os.path.join('static','test',str(i)+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+os.path.join('static','test',str(i)+'.png')
-                    line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
+                    urlPrev = request.host_url+os.path.join('static','res','clickDisini.jpg')
+                    line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlPrev))
                 balas(event,'Done')
     elif(isi == 'hapusTest'):
         shutil.rmtree('static/test')
