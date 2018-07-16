@@ -85,7 +85,7 @@ def hapusDirAman(pathDir,uID):
     except OSError as exc:
         pm(uID,'Hapus '+pathDir+' gagal')
 def gambarImagemap(idGame,uID,tIM):
-    waktuMulai = helperData.buka('static/waktuMulai.json')
+    waktuMulai = helperData.buka('static/waktuMulai')
     if(len(tIM)>=50):
         #kasus spesial
         path1='static/'+idGame+' '+waktuMulai[idGame]+'/'+uID
