@@ -10,7 +10,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
+    MessageEvent, TextMessage, TextSendMessage,ImageSendMessage,TemplateSendMessage,ButtonsTemplate
 )
 
 app = Flask(__name__)
@@ -82,5 +82,17 @@ def handle_message(event):
                 balas(event,'Done')
     elif(isi == 'hapusTest'):
         os.remove(os.path.join(APP_ROOT,'static','test'))
+    elif(isi == '.kartuBohong'):
+        buttons_template = ButtonsTemplate(
+            title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
+                PostbackAction(label='ping', data='ping'),
+            ])
+        template_message = TemplateSendMessage(
+            alt_text='Kartu Bohong', template=buttons_template)
+        line_bot_api.reply_message(event.reply_token, template_message)
+    elif(isi == '.mulai'):
+        pass
+    elif(isi == '.berhenti'):
+        pass
 if __name__ == "__main__":
     app.run()
