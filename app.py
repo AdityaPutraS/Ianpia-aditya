@@ -189,7 +189,7 @@ def handle_message(event):
                 waktuMulai[idGame] = dirW
                 helperData.simpan(kB,'static/'+'kB')
                 helperData.simpan(turn,'static/'+'turn')
-                helperData.simpan(waktuMulai,'static/'+'turn')
+                helperData.simpan(waktuMulai,'static/'+'waktuMulai')
                 buttons_template = ButtonsTemplate(
                     title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
                         PostbackAction(label='Join', data=dataGameKartu),
