@@ -56,7 +56,7 @@ def handle_postback(event):
         if(os.path.exists(os.path.join(APP_ROOT,'static',isiPostback[1]))):
                 if(os.path.exists(os.path.join(APP_ROOT,'static',isiPostback[1],isiPostback[2]))):
                     #sudah pernah gabung
-                    line_bot_api.push_message(isiPostback[1],TemplateSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong'))
+                    line_bot_api.push_message(isiPostback[1],TextSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong'))
                 else:
                     #belum pernah gabung
                     os.mkdir(os.path.join(APP_ROOT,'static',isiPostback[1],isiPostback[2]))
