@@ -49,7 +49,7 @@ def handle_postback(event):
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text='gId : '+isiPostback[1]),TextSendMessage(text='uId : '+isiPostback[2])
             )
-    elif isiPostback[0] = 'rKB':
+    elif isiPostback[0] == 'rKB':
         line_bot_api.reply_message(
             event.reply_token, TextSendMessage(text='rId : '+isiPostback[1]),TextSendMessage(text='uId : '+isiPostback[2])
             )
