@@ -148,7 +148,7 @@ def handle_message(event):
             idGame = event.source.group_id
         elif isinstance(event.source,SourceRoom):
             idGame = event.source.room_id
-        else
+        else:
             idGame = ''
         if(idGame == ''):
             balas(event,'Tidak bisa digunakan di 1:1 chat')
