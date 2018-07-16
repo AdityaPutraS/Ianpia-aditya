@@ -77,14 +77,14 @@ def tanya(idGame,Uid):
     kB = helperData.buka('static/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
     tmpCol = []
-    for i in [x*4 for x in range(0,math.ceil(len(kartuDiTangan)/4))]:
+    for i in [x*4 for x in range(0,math.ceil(len(kartuDiTangan)/3))]:
         tmpLi = kartuDiTangan[i:][:4]
         tmpAction = []
         for t in tmpLi:
             tmpAction.append(PostbackAction(label=t,data='pKB '+idGame+' '+Uid+' '+t))
         tmpCarCol = CarouselColumn(text='Minimal 1 kartu, maksimal 4 kartu',title = 'Pilih kartu', actions = tmpAction)
         tmpCol.append(tmpCarCol) 
-    for i in [x*10 for x in range(0,math.ceil(len(tmpCol)/4))]:
+    for i in [x*10 for x in range(0,math.ceil(len(tmpCol)/5))]:
         carousel_template = CarouselTemplate(columns=tmpCol[i:][:4])
         template_message = TemplateSendMessage(
             alt_text='Pilih kartu', template=carousel_template)
@@ -176,6 +176,9 @@ def handle_message(event):
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
                     pathGambar = os.path.join('static',idGame,pemain,str(turn[idGame])+'.png')
                     gambar.save(pathGambar)
+                    @after_this_request
+                    def hapus(response):
+                        os.remove(pathGambar)
                     urlGambar = request.host_url+pathGambar
                     line_bot_api.push_message(pemain,[
                         TextSendMessage(text='Ini Kartumu'),
