@@ -191,10 +191,10 @@ def handle_message(event):
                     TextSendMessage(text = 'Dimulai dari kartu 2 oleh '+ namaFirst)
                     ]
                 )
-                tanya(idGame,urutanMain[idGame][0])
                 helperData.simpan(kB,'static/'+'kB')
                 helperData.simpan(turn,'static/'+'turn')
                 helperData.simpan(urutanMain,'static/'+'urutanMain')
+                tanya(idGame,urutanMain[idGame][0])
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
             
