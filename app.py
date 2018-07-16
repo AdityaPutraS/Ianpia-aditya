@@ -172,7 +172,7 @@ def handle_message(event):
                 for pemain in kB[idGame]:
                     kB[idGame][pemain] = tmpKartu[no]
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
-                    pathGambar = os.path.join('static',idGame,pemain,turn[idGame]+'.png')
+                    pathGambar = os.path.join('static',idGame,pemain,str(turn[idGame])+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+pathGambar
                     line_bot_api.push_message(pemain,[
