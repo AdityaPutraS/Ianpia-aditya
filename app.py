@@ -48,14 +48,14 @@ def handle_postback(event):
     nama = line_bot_api.get_profile(isiPostback[2]).display_name
     if isiPostback[0] == 'gKB':
         line_bot_api.push_message(
-            isiPostback[2], TextSendMessage(text='gId : '+isiPostback[1]),TextSendMessage(text='uId : '+isiPostback[2])
+            isiPostback[2], [TextSendMessage(text='gId : '+isiPostback[1]),TextSendMessage(text='uId : '+isiPostback[2]])
             )
         line_bot_api.push_message(
             isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
             )
     elif isiPostback[0] == 'rKB':
         line_bot_api.push_message(
-            isiPostback[2], TextSendMessage(text='rId : '+isiPostback[1]),TextSendMessage(text='uId : '+isiPostback[2])  #<-- refactor later
+            isiPostback[2], [TextSendMessage(text='rId : '+isiPostback[1]),TextSendMessage(text='uId : '+isiPostback[2]])  #<-- refactor later
             )
         line_bot_api.push_message(
             isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
