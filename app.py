@@ -62,9 +62,9 @@ def handle_postback(event):
                 else:
                     #belum pernah gabung
                     os.mkdir(os.path.join(APP_ROOT,'static',isiPostback[1],isiPostback[2]))
-                    kB = buka('static/'+'kB')
+                    kB = helperData.buka('static/'+'kB')
                     kB[isiPostback[1]][isiPostback[2]] = []
-                    simpan(kB,'static/'+'kB')
+                    helperData.simpan(kB,'static/'+'kB')
                     line_bot_api.push_message(
                         isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
                     )
@@ -129,8 +129,8 @@ def handle_message(event):
                 os.mkdir(os.path.join(APP_ROOT,'static',idGame))
                 kB[idGame] = {}
                 turn[idGame] = 0
-                simpan(kB,'static/'+'kB')
-                simpan(turn,'static/'+'turn')
+                helperData.simpan(kB,'static/'+'kB')
+                helperData.simpan(turn,'static/'+'turn')
                 buttons_template = ButtonsTemplate(
                     title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
                         PostbackAction(label='Join', data=dataGameKartu),
@@ -145,8 +145,8 @@ def handle_message(event):
             balas(event,'Tidak bisa digunakan di 1:1 chat')
         else:
             if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
-                turn = buka('static/'+'turn')
-                kB = buka('static/'+'kB')
+                turn = helperData.buka('static/'+'turn')
+                kB = helperData.buka('static/'+'kB')
                 turn[idGame] = 0
                 banyakPemain = len(kB[idGame])
                 tmpKartu = helperKartu.bagiKartu(banyakPemain)
@@ -174,25 +174,25 @@ def handle_message(event):
         else:
             if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
                 shutil.rmtree('static/'+idGame)
-                kB = buka('static/'+'kB')
-                turn = buka('static/'+'turn')
+                kB = helperData.buka('static/'+'kB')
+                turn = helperData.buka('static/'+'turn')
                 del kB[idGame]
                 del turn[idGame]
-                simpan(kB,'static/'+'kB')
-                simpan(turn,'static/'+'turn')
+                helperData.simpan(kB,'static/'+'kB')
+                helperData.simpan(turn,'static/'+'turn')
                 balas(event,'Game berhenti')
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
     #fungsi debug
     elif(isi == 'listGame'):
         game = ''
-        kB = buka('static/'+'kB')
+        kB = helperData.buka('static/'+'kB')
         for i in kB:
             game = game + i + '\n'
         balas(event,game)
     elif(isi == 'listPemain'):
         pemain = ''
-        kB = buka('static/'+'kB')
+        kB = helperData.buka('static/'+'kB')
         for i in kB[idGame] :
             pemain = pemain + i + '\n'
         balas(event,pemain)
