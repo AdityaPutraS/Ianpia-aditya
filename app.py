@@ -105,7 +105,7 @@ def gambarImagemap(event,tIM):
         for let in letak:
             mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi.append(mesTmp)
-        line_bot_api.push_message(idGame,text=str(len(aksi)))
+        line_bot_api.push_message(idGame,TextSendMessage(text=str(len(aksi))))
         line_bot_api.reply_message(event.reply_token,ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+event.source.user_id,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi))
 def tanya(idGame,Uid):
     kB = helperData.buka('static/'+'kB')
