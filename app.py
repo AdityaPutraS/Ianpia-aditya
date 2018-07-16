@@ -170,7 +170,7 @@ def handle_message(event):
                 urutan = ''
                 tmpUrutan = []
                 for pemain in kB[idGame]:
-                    kb[idGame][pemain] = tmpKartu[no]
+                    kB[idGame][pemain] = tmpKartu[no]
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
                     pathGambar = os.path.join('static',idGame,pemain,turn[idGame]+'.png')
                     gambar.save(pathGambar)
