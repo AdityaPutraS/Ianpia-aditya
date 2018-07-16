@@ -85,8 +85,8 @@ def hapusDirAman(pathDir):
 def gambarImagemap(idGame,uID,tIM):
     if(len(tIM)>=50):
         #kasus spesial
-        buatDirAman('static/'+idGame+'/'+event.source.uID)
-        buatDirAman('static/'+idGame+'/'+event.source.uID+'_2')
+        buatDirAman('static/'+idGame+'/'+uID)
+        buatDirAman('static/'+idGame+'/'+uID+'_2')
         letak1 = helperKartu.genImagemap('static/'+idGame+'/'+uID,tIM[:25])
         letak2 = helperKartu.genImagemap('static/'+idGame+'/'+uID+'_2',tIM[25:])
         aksi1 = []
