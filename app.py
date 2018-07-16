@@ -1,5 +1,5 @@
 from flask import Flask, request, abort, after_this_request
-import os,shutil,json,math
+import os,shutil,json,math,io
 import helperKartu,helperData
 from PIL import Image
 
@@ -174,9 +174,13 @@ def handle_message(event):
                 for pemain in kB[idGame]:
                     kB[idGame][pemain] = tmpKartu[no]
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
-                    pathGambar = os.path.join('static',idGame,pemain,str(turn[idGame])+'.png')
-                    gambar.save(pathGambar)
-                    urlGambar = request.host_url+pathGambar
+                    imByte = io.BytesIO()
+                    gambar.save(imByte,format='PNG')
+                    tf = tempfile.NamedTemporaryFile(dir=os.path.join('static',idGame,pemain),delete=True)
+                    tfName = tf.name
+                    tf.write(imByte.getvalue())
+                    os.rename(tfName, tfName+'.png')
+                    urlGambar = request.host_url+os.path.join('static',idGame,pemain,tfName+'.png')
                     line_bot_api.push_message(pemain,[
                         TextSendMessage(text='Ini Kartumu'),
                         ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar)
@@ -186,6 +190,7 @@ def handle_message(event):
                     nama = line_bot_api.get_profile(pemain).display_name
                     urutan = urutan + nama + '-> '
                     tmpUrutan.append(pemain)
+                    tf.close()
                 urutan += 'Kembali ke awal'
                 urutanMain[idGame] = tmpUrutan
                 namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
