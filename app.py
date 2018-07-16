@@ -74,7 +74,7 @@ def balas(event,pesan):
             )
 def tanya(idGame,Uid):
     kB = helperData.buka('static/'+'kB')
-    kartuDiTangan = kB[idGame][Uid]4
+    kartuDiTangan = kB[idGame][Uid]
     
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
