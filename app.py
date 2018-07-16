@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, after_this_request
+from flask import Flask, request, abort, send_from_directory
 import os,shutil,json,math,errno
 import helperKartu,helperData
 from PIL import Image
@@ -40,7 +40,10 @@ def callback():
         abort(400)
 
     return 'OK'
-    
+@app.route('/kartu/<namaKartu>')
+def kasihKartu(namaKartu):
+    return send_from_directory('static/kartu', namaKartu+'.png', as_attachment=True)
+
 @handler.add(PostbackEvent)
 def handle_postback(event):
     isiPostback = event.postback.data.split()
@@ -98,8 +101,11 @@ def gambarImagemap(idGame,uID,tIM):
             mesTmp = MessageImagemapAction(text='Kartu '+let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi2.append(mesTmp)
         line_bot_api.push_message(uID,[
-            ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+uID,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
-            ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+uID+'_2',alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
+            url1 = request.host_url+'static/'+idGame+'/'+uID
+            url2 = request.host_url+'static/'+idGame+'/'+uID+'_2'
+            #
+            ImagemapSendMessage(base_url=url1,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
+            ImagemapSendMessage(base_url=url2,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
             ]
         )
         hapusDirAman('static/'+idGame+'/'+uID,uID)
@@ -314,6 +320,8 @@ def handle_message(event):
         for i in kB:
             game = game + i + '\n'
         balas(event,game)
+    elif(isi == 'test'):
+        line_bot_api.push_message(uId,ImageSendMessage(original_content_url = request.host_url+'/kartu/2 Hati',preview_image_url = request.host_url+'/kartu/2 Hati'))
     elif(isi == 'listPemain'):
         pemain = ''
         kB = helperData.buka('static/'+'kB')
