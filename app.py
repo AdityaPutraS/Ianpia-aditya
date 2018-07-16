@@ -1,5 +1,5 @@
 from flask import Flask, request, abort
-import os,shutil,json
+import os,shutil,json,math
 import helperKartu,helperData
 from PIL import Image
 
@@ -24,8 +24,6 @@ line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 APP_ROOT = '/app'
 kartu = helperKartu.loadGambar()
-kB = {}
-turn = {}
 #Bare minimum
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -75,6 +73,21 @@ def balas(event,pesan):
                 event.reply_token,
                 TextSendMessage(text=pesan)
             )
+def tanya(idGame,Uid):
+    kB = helperData.buka('static/'+'kB')
+    kartuDiTangan = kB[idGame][Uid]
+    tmpCol = []
+    for i in range(1,len(kartuDiTangan)):
+        if(i % 4 == 0):
+            tmpCarCol = CarouselColumn(text='Minimal 1 kartu, maksimal 4 kartu',title = 'Pilih kartu', actions = tmpAction)
+            tmpCol.append(tmpCarCol) 
+            tmpAction = [PostbackAction(label=kartuDiTangan[i],data='pKB '+idGame+' '+Uid+' '+kartuDiTangan[i])]
+        else:
+            tmpAction.append(PostbackAction(label=kartuDiTangan[i],data='pKB '+idGame+' '+Uid+' '+kartuDiTangan[i]))
+    carousel_template = CarouselTemplate(columns=tmpCol)
+    template_message = TemplateSendMessage(
+        alt_text='Pilih kartu', template=carousel_template)
+    line_bot_api.push_message(Uid, template_message)
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     isi = event.message.text
@@ -149,12 +162,14 @@ def handle_message(event):
             if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
                 turn = helperData.buka('static/'+'turn')
                 kB = helperData.buka('static/'+'kB')
+                urutanMain = helperData.buka('static/'+'urutanMain')
                 turn[idGame] = 0
                 banyakPemain = len(kB[idGame])
                 tmpKartu = helperKartu.bagiKartu(banyakPemain)
                 no = 0
+                urutan = ''
+                tmpUrutan = []
                 for pemain in kB[idGame]:
-                    os.mkdir(os.path.join(APP_ROOT,'static',idGame,pemain))
                     kb[idGame][pemain] = tmpKartu[no]
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
                     pathGambar = os.path.join('static',idGame,pemain,turn[idGame]+'.png')
@@ -166,6 +181,20 @@ def handle_message(event):
                         ]
                     )
                     no += 1
+                    nama = line_bot_api.get_profile(pemain).display_name
+                    urutan = urutan + nama + '/n'
+                    tmpUrutan.append(pemain)
+                urutanMain[idGame] = tmpUrutan
+                namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
+                line_bot_api.push_message(idGame,[
+                    TextSendMessage(text = 'Urutan bermain : '+'/n'+urutan),
+                    TextSendMessage(text = 'Dimulai dari kartu 2 oleh '+ namaFirst)
+                    ]
+                )
+                tanya(idGame,urutanMain[idGame][0])
+                helperData.simpan(kB,'static/'+'kB')
+                helperData.simpan(turn,'static/'+'turn')
+                helperData.simpan(urutanMain,'static/'+'urutanMain')
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
             
