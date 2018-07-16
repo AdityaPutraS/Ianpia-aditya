@@ -1,5 +1,5 @@
 from flask import Flask, request, abort
-import os,shutil
+import os,shutil,json
 import helperKartu
 from PIL import Image
 
@@ -126,7 +126,10 @@ def handle_message(event):
             else:
                 os.mkdir(os.path.join(APP_ROOT,'static',idGame))
                 kB[idGame] = {}
-                
+                #debug
+                for pemain in kB:
+                    line_bot_api.push_message(idGame,TextSendMessage(text = pemain))
+                #debug
                 buttons_template = ButtonsTemplate(
                     title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
                         PostbackAction(label='Join', data=dataGameKartu),
