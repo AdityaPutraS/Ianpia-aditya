@@ -265,19 +265,23 @@ def handle_message(event):
                         namaKartu = nomorKartu+' '+tipeKartu
                         if(namaKartu in kB[idGame][uId]):
                             #valid
-                            pilihan[idGame][uId].append(namaKartu)
-                            listKartu = ''
-                            for l in pilihan[idGame][uId]:
-                                listKartu = listKartu + l + ', '
-                            listKartu = listKartu[:len(listKartu)-2] #<- potong ', ' di akhir
-                            confirm_template = ConfirmTemplate(text='Kamu sudah memilih '+str(len(pilihan[idGame][uId]))+' kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
-                                MessageAction(label='Submit', text='Gaskeun Bosq'),
-                                MessageAction(label='Ulang', text='Aku mau ulang'),
-                            ])
-                            line_bot_api.push_message(uId,[
-                                TextSendMessage(text = 'Pilihanmu adalah : '+listKartu),
-                                TemplateSendMessage(alt_text='Pilihan kartu', template=confirm_template)
-                            ])
+                            #cek apakah kartu sudah ada di pilihan
+                            if(namaKartu in pilihan[idGame][uId]):
+                                pm(uId,'Pilih kartu lain')
+                            else:
+                                pilihan[idGame][uId].append(namaKartu)
+                                listKartu = ''
+                                for l in pilihan[idGame][uId]:
+                                    listKartu = listKartu + l + ', '
+                                listKartu = listKartu[:len(listKartu)-2] #<- potong ', ' di akhir
+                                confirm_template = ConfirmTemplate(text='Kamu sudah memilih '+str(len(pilihan[idGame][uId]))+' kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
+                                    MessageAction(label='Submit', text='Gaskeun Bosq'),
+                                    MessageAction(label='Ulang', text='Aku mau ulang'),
+                                ])
+                                line_bot_api.push_message(uId,[
+                                    TextSendMessage(text = 'Pilihanmu adalah : '+listKartu),
+                                    TemplateSendMessage(alt_text='Pilihan kartu', template=confirm_template)
+                                ])
                         else:
                             #tidak valid
                             balas(event,'Kamu tidak punya kartu '+namaKartu)
