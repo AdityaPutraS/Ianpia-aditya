@@ -84,7 +84,7 @@ def tanya(idGame,Uid):
             tmpAction.append(PostbackAction(label=t,data='pKB '+idGame+' '+Uid+' '+t))
         tmpCarCol = CarouselColumn(text='Minimal 1 kartu, maksimal 4 kartu',title = 'Pilih kartu', actions = tmpAction)
         tmpCol.append(tmpCarCol) 
-    for i in [x*10 for x in range(0,math.ceil(len(tmpCol)/4)]:
+    for i in [x*10 for x in range(0,math.ceil(len(tmpCol)/4))]:
         carousel_template = CarouselTemplate(columns=tmpCol[i:][:4])
         template_message = TemplateSendMessage(
             alt_text='Pilih kartu', template=carousel_template)
@@ -184,12 +184,13 @@ def handle_message(event):
                     )
                     no += 1
                     nama = line_bot_api.get_profile(pemain).display_name
-                    urutan = urutan + nama + '/n'
+                    urutan = urutan + nama + '-> '
                     tmpUrutan.append(pemain)
+                urutan += 'Kembali ke awal'
                 urutanMain[idGame] = tmpUrutan
                 namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
                 line_bot_api.push_message(idGame,[
-                    TextSendMessage(text = 'Urutan bermain : '+'/n'+urutan),
+                    TextSendMessage(text = 'Urutan bermain : '+urutan),
                     TextSendMessage(text = 'Dimulai dari kartu 2 oleh '+ namaFirst)
                     ]
                 )
