@@ -178,9 +178,14 @@ def handle_message(event):
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
     #fungsi debug
+    elif(isi == 'listGame'):
+        game = ''
+        for i in kartuBohong:
+            game = game + i + '\n'
+        balas(event,game)
     elif(isi == 'listPemain'):
         pemain = ''
-        for i in kartuBohong[idGame]:
+        for i in kartuBohong[idGame] :
             pemain = pemain + i + '\n'
         balas(event,pemain)
     elif(isi == 'appRoot'):
