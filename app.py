@@ -48,6 +48,7 @@ def handle_postback(event):
     nama = line_bot_api.get_profile(isiPostback[2]).display_name
     if isiPostback[0] == 'KB':
         kB = helperData.buka('static/'+'kB')
+        waktuMulai = helperData.buka('static/'+'waktuMulai')
         line_bot_api.push_message(
             isiPostback[2], [
                 TextSendMessage(text='gId : '+isiPostback[1]),
@@ -61,7 +62,7 @@ def handle_postback(event):
                 else:
                     #belum pernah gabung
                     kB[isiPostback[1]][isiPostback[2]] = []
-                    os.mkdir('static/'+isiPostback[1]+'/'+isiPostback[2])
+                    os.mkdir('static/'+isiPostback[1]+' '+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
                     helperData.simpan(kB,'static/'+'kB')
                     line_bot_api.push_message(
                         isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
