@@ -55,7 +55,7 @@ def loadGambar(w,h):
     for nomor in urutan:
         tmp = {}
         for tip in tipe:
-            dirKartu = 'kartu/'+nomor+' '+tip+'.png'
+            dirKartu = 'static/kartu/'+nomor+' '+tip+'.png'
             tmp[tip] = Image.open(dirKartu)
             tmp[tip] = tmp[tip].resize((w,h),Image.ANTIALIAS)
             #tmp[tip] = tmp[tip].resize((int(tmp[tip].size[0]/2),int(tmp[tip].size[1]/2)),Image.ANTIALIAS)
