@@ -220,8 +220,8 @@ def handle_message(event):
         balas(event,text)
     elif(isi == 'imagemap'):
         tIM = helperKartu.bagiKartu(1)
-        aksi = [URIImagemapAction(link_uri=request.host_url+'/lolz1',area=ImagemapArea(x=0,y=0,width=1040,height=520)),
-                URIImagemapAction(link_uri=request.host_url+'/lolz2',area=ImagemapArea(x=0,y=520,width=1040,height=520))
+        aksi = [MessageImagemapAction(text='Atas',area=ImagemapArea(x=0,y=0,width=1040,height=520)),
+                MessageImagemapAction(text='Bawah',area=ImagemapArea(x=0,y=520,width=1040,height=520))
                ]
         helperKartu.genImagemap('static/'+idGame,tIM[0])
         line_bot_api.reply_message(event.reply_token,ImagemapSendMessage(base_url=request.host_url+'static/'+idGame,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi))
