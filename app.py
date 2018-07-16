@@ -77,17 +77,19 @@ def tanya(idGame,Uid):
     kB = helperData.buka('static/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
     tmpCol = []
-    for i in range(1,len(kartuDiTangan)):
-        if(i % 4 == 0):
-            tmpCarCol = CarouselColumn(text='Minimal 1 kartu, maksimal 4 kartu',title = 'Pilih kartu', actions = tmpAction)
-            tmpCol.append(tmpCarCol) 
-            tmpAction = [PostbackAction(label=kartuDiTangan[i],data='pKB '+idGame+' '+Uid+' '+kartuDiTangan[i])]
-        else:
-            tmpAction.append(PostbackAction(label=kartuDiTangan[i],data='pKB '+idGame+' '+Uid+' '+kartuDiTangan[i]))
-    carousel_template = CarouselTemplate(columns=tmpCol)
-    template_message = TemplateSendMessage(
-        alt_text='Pilih kartu', template=carousel_template)
-    line_bot_api.push_message(Uid, template_message)
+    for i in [x*4 for x in range(0,math.ceil(len(kartuDiTangan)/4))]:
+        tmpLi = kartuDiTangan[i:][:4]
+        tmpAction = []
+        for t in tmpLi:
+            tmpAction.append(PostbackAction(label=t,data='pKB '+idGame+' '+Uid+' '+t))
+        tmpCarCol = CarouselColumn(text='Minimal 1 kartu, maksimal 4 kartu',title = 'Pilih kartu', actions = tmpAction)
+        tmpCol.append(tmpCarCol) 
+    for i in [x*10 for x in range(0,math.ceil(len(tmpCol)/4)]:
+        carousel_template = CarouselTemplate(columns=tmpCol[i:][:4])
+        template_message = TemplateSendMessage(
+            alt_text='Pilih kartu', template=carousel_template)
+        line_bot_api.push_message(Uid, template_message)
+    
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     isi = event.message.text
