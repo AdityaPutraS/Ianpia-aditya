@@ -24,6 +24,8 @@ line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 APP_ROOT = '/app'
 kartu = helperKartu.loadGambar()
+kartuBohong = {}
+turn = {}
 #Bare minimum
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -60,11 +62,12 @@ def handle_postback(event):
                 else:
                     #belum pernah gabung
                     os.mkdir(os.path.join(APP_ROOT,'static',isiPostback[1],isiPostback[2]))
+                    kartuBohong[isiPostback[1]][isiPostback[2]] = []
+                    line_bot_api.push_message(
+                        isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
+                    )
         else:
             line_bot_api.push_message(isiPostback[1],TemplateSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong'))
-        line_bot_api.push_message(
-            isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
-            )
 def balas(event,pesan):
     line_bot_api.reply_message(
                 event.reply_token,
@@ -73,6 +76,14 @@ def balas(event,pesan):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     isi = event.message.text
+    
+    if isinstance(event.source,SourceGroup):
+        idGame = event.source.group_id
+    elif isinstance(event.source,SourceRoom):
+        idGame = event.source.room_id
+    else:
+        idGame = ''
+    
     if('bagiKartu' in isi):
         banyakPemain = int(isi[10:][:len(isi)-11]) #bagiKartu(10) <--- mengambil hanya 10 nya saja
         if(banyakPemain > 7):
@@ -108,30 +119,20 @@ def handle_message(event):
     elif(isi == '.kartuBohong'):
         uId = event.source.user_id
         valid = False
-        tipe = ''
         dataGameKartu = ''
-        if(isinstance(event.source,SourceGroup)):
-            gId = event.source.group_id
+        if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
             valid = True
-            tipe = 'g'
-            dataGameKartu = 'KB '+gId+' '+uId
-            if(os.path.exists(os.path.join(APP_ROOT,'static',gId))):
-                pass
+            dataGameKartu = 'KB '+idGame+' '+uId
+            if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
+                balas(event,'Game sudah dimulai, silahkan join dengan mengeklik tombol join')
+                valid = False
             else:
-                os.mkdir(os.path.join(APP_ROOT,'static',gId))
-        elif(isinstance(event.source,SourceRoom)):
-            rId = event.source.room_id
-            valid = True
-            tipe = 'r'
-            dataGameKartu = 'KB '+rId+' '+uId
-            if(os.path.exists(os.path.join(APP_ROOT,'static',rId))):
-                pass
-            else:
-                os.mkdir(os.path.join(APP_ROOT,'static',rId))
+                os.mkdir(os.path.join(APP_ROOT,'static',idGame))
+                kartuBohong[idGame] = {}
         else:
             balas(event,'Tidak bisa memulai permainan di 1:1 chat')
         #Kirim button ke group/room
-        if(valid):            
+        if(valid):       
             buttons_template = ButtonsTemplate(
                 title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
                     PostbackAction(label='Join', data=dataGameKartu),
@@ -140,23 +141,48 @@ def handle_message(event):
                 alt_text='Kartu Bohong', template=buttons_template)
             line_bot_api.reply_message(event.reply_token, template_message)
     elif(isi == '.mulai'):
-        pass
+        if(idGame == ''):
+            balas(event,'Tidak bisa digunakan di 1:1 chat')
+        else:
+            if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
+                turn[idGame] = 0
+                banyakPemain = len(kartuBohong[idGame])
+                tmpKartu = helperKartu.bagiKartu(banyakPemain)
+                no = 0
+                for pemain in kartuBohong[idGame]:
+                    os.mkdir(os.path.join(APP_ROOT,'static',idGame,pemain))
+                    kartuBohong[idGame][pemain] = tmpKartu[no]
+                    gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
+                    pathGambar = os.path.join('static',idGame,pemain,turn[idGame]+'.png')
+                    gambar.save(pathGambar)
+                    urlGambar = request.host_url+pathGambar
+                    line_bot_api.push_message(pemain,[
+                        TextSendMessage(text='Ini Kartumu'),
+                        ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar)
+                        ]
+                    )
+                    no += 1
+            else:
+                balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
+            
     elif(isi == '.berhenti'):
         #check apakah game sudah ada
-        if isinstance(event.source,SourceGroup):
-            idGame = event.source.group_id
-        elif isinstance(event.source,SourceRoom):
-            idGame = event.source.room_id
-        else:
-            idGame = ''
         if(idGame == ''):
             balas(event,'Tidak bisa digunakan di 1:1 chat')
         else:
             if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
                 shutil.rmtree('static/'+idGame)
+                del kartuBohong[idGame]
+                del turn[idGame]
                 balas(event,'Game berhenti')
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
+    #fungsi debug
+    elif(isi == 'listPemain'):
+        pemain = ''
+        for i in kartuBohong[idGame]
+            pemain = pemain + i + '\n'
+        balas(event,pemain)
     elif(isi == 'appRoot'):
         text = ''
         for i in os.listdir():
