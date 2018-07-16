@@ -249,7 +249,7 @@ def handle_message(event):
                     for l in pilihan[idGame][uId]:
                         listKartu = listKartu + l + ', '
                     listKartu = listKartu[:len(listKartu)-2] #<- potong ', ' di akhir
-                        confirm_template = ConfirmTemplate(text='Kamu sudah memilih '+len(pilihan[idGame][uId])+' kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
+                    confirm_template = ConfirmTemplate(text='Kamu sudah memilih '+len(pilihan[idGame][uId])+' kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
                         MessageAction(label='Submit', text='Gaskeun Bosq'),
                         MessageAction(label='Ulang', text='Aku mau ulang'),
                     ])
