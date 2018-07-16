@@ -88,12 +88,13 @@ def hapusDirAman(pathDir,uID):
 def gambarImagemap(idGame,uID,tIM):
     if(len(tIM)>=50):
         #kasus spesial
-        text = ''
+        text = 'Isi static gameid : '
         for i in os.listdir('static/'+idGame):
             text = text + i + ' '
         pm(uID,text)
         buatDirAman('static/'+idGame+'/'+uID)
         buatDirAman('static/'+idGame+'/'+uID+'_2')
+        text = 'Isi static gameid UID : '
         for i in os.listdir('static/'+idGame+'/'+uID):
             text = text + i + ' '
         pm(uID,text)
@@ -114,6 +115,10 @@ def gambarImagemap(idGame,uID,tIM):
             ImagemapSendMessage(base_url=url2,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
             ]
         )
+        text = 'Isi static gameid UID 2 : '
+        for i in os.listdir('static/'+idGame+'/'+uID):
+            text = text + i + ' '
+        pm(uID,text)
         #hapusDirAman('static/'+idGame+'/'+uID,uID)
         #hapusDirAman('static/'+idGame+'/'+uID+'_2',uID)
     else:
