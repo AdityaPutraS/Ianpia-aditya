@@ -123,7 +123,7 @@ def handle_message(event):
         if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
             valid = True
             dataGameKartu = 'KB '+idGame+' '+uId
-            if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
+            if(idGame in kartuBohong):
                 balas(event,'Game sudah dimulai, silahkan join dengan mengeklik tombol join')
                 valid = False
             else:
