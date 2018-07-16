@@ -77,11 +77,11 @@ def buatDirAman(pathDir):
         os.mkdir(pathDir)
     except OSError as exc:
         pass
-def hapusDirAman(pathDir):
+def hapusDirAman(pathDir,uID):
     try:
         shutil.rmtree(pathDir)
     except OSError as exc:
-        pass
+        pm(uID,'Hapus '+pathDir+' gagal')
 def gambarImagemap(idGame,uID,tIM):
     if(len(tIM)>=50):
         #kasus spesial
@@ -102,6 +102,8 @@ def gambarImagemap(idGame,uID,tIM):
             ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+uID+'_2',alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
             ]
         )
+        hapusDirAman('static/'+idGame+'/'+uID,uID)
+        hapusDirAman('static/'+idGame+'/'+uID+'_2',uID)
     else:
         aksi = []
         buatDirAman('static/'+idGame+'/'+uID)
@@ -113,8 +115,8 @@ def gambarImagemap(idGame,uID,tIM):
             ImagemapSendMessage(base_url=request.host_url+'static/'+idGame+'/'+uID,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi)
             ]
         )
-    hapusDirAman('static/'+idGame+'/'+uID)
-    hapusDirAman('static/'+idGame+'/'+uID+'_2')
+        hapusDirAman('static/'+idGame+'/'+uID,uID)
+    
 def tanya(idGame,Uid):
     kB = helperData.buka('static/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
@@ -126,7 +128,7 @@ def pm(id,isi):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     isi = event.message.text
-    
+    uId = event.source.user_id
     if isinstance(event.source,SourceGroup):
         idGame = event.source.group_id
     elif isinstance(event.source,SourceRoom):
@@ -160,7 +162,6 @@ def handle_message(event):
     elif(isi == 'hapusTest'):
         shutil.rmtree('static/test')
     elif(isi == '.kartuBohong'):
-        uId = event.source.user_id
         dataGameKartu = ''
         turn = helperData.buka('static/'+'turn')
         kB = helperData.buka('static/'+'kB')
@@ -276,7 +277,7 @@ def handle_message(event):
             balas(event,'Tidak bisa digunakan di 1:1 chat')
         else:
             if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
-                shutil.rmtree('static/'+idGame)
+                hapusDirAman('static/'+idGame,uId)
                 kB = helperData.buka('static/'+'kB')
                 turn = helperData.buka('static/'+'turn')
                 del kB[idGame]
