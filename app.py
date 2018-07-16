@@ -1,5 +1,5 @@
 from flask import Flask, request, abort, after_this_request
-import os,shutil,json,math,io,tempfile
+import os,shutil,json,math
 import helperKartu,helperData
 from PIL import Image
 
@@ -47,20 +47,19 @@ def handle_postback(event):
     isiPostback = event.postback.data.split()
     nama = line_bot_api.get_profile(isiPostback[2]).display_name
     if isiPostback[0] == 'KB':
+        kB = helperData.buka('static/'+'kB')
         line_bot_api.push_message(
             isiPostback[2], [
                 TextSendMessage(text='gId : '+isiPostback[1]),
                 TextSendMessage(text='uId : '+isiPostback[2])
             ]
         )
-        if(os.path.exists(os.path.join(APP_ROOT,'static',isiPostback[1]))):
-                if(os.path.exists(os.path.join(APP_ROOT,'static',isiPostback[1],isiPostback[2]))):
+        if(isiPostback[1] in kB):
+                if(isiPostback[2] in kB[isiPostback[1]]):
                     #sudah pernah gabung
                     line_bot_api.push_message(isiPostback[1],TextSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong'))
                 else:
                     #belum pernah gabung
-                    os.mkdir(os.path.join(APP_ROOT,'static',isiPostback[1],isiPostback[2]))
-                    kB = helperData.buka('static/'+'kB')
                     kB[isiPostback[1]][isiPostback[2]] = []
                     helperData.simpan(kB,'static/'+'kB')
                     line_bot_api.push_message(
@@ -174,13 +173,9 @@ def handle_message(event):
                 for pemain in kB[idGame]:
                     kB[idGame][pemain] = tmpKartu[no]
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
-                    imByte = io.BytesIO()
-                    gambar.save(imByte,format='PNG')
-                    tf = tempfile.NamedTemporaryFile(dir=os.path.join('static',idGame,pemain),delete=True)
-                    tfName = tf.name
-                    tf.write(imByte.getvalue())
-                    os.rename(tfName, tfName+'.png')
-                    urlGambar = request.host_url+os.path.join('static',idGame,pemain,tfName+'.png')
+                    pathGambar = os.path.join('static',idGame,pemain+'.png')
+                    gambar.save(pathGambar)
+                    urlGambar = request.host_url+pathGambar
                     line_bot_api.push_message(pemain,[
                         TextSendMessage(text='Ini Kartumu'),
                         ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar)
@@ -190,7 +185,6 @@ def handle_message(event):
                     nama = line_bot_api.get_profile(pemain).display_name
                     urutan = urutan + nama + '-> '
                     tmpUrutan.append(pemain)
-                    tf.close()
                 urutan += 'Kembali ke awal'
                 urutanMain[idGame] = tmpUrutan
                 namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
