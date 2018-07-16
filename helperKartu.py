@@ -75,9 +75,7 @@ def gambarKartuDiTangan(sizeR,kartuTangan):
         offsetX = int((size-(100+(banyak-1)*offKarX))/2)
     else:
         offsetX = int((size-(100+(kartuPerBaris-1)*offKarX))/2)
-    ic(offsetX)
     offsetY = int((size-(150+math.ceil(banyak/(kartuPerBaris)-1)*offKarY))/2)
-    ic(offsetY)
     background = Image.new('RGB', (size,size), (0,0,0))
     no = 0
     for i in range(0,banyak):
