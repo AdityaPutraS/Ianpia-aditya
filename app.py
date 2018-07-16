@@ -41,7 +41,19 @@ def callback():
         abort(400)
 
     return 'OK'
-
+    
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    isiPostback = event.postback.data.split()
+    if isiPostback[0] == 'gKB':
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text='gId : '+isiPostback[1]),TextSendMessage(text='uId : '+isiPostback[2])
+            )
+    elif isiPostback[0] = 'rKB':
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text='rId : '+isiPostback[1]),TextSendMessage(text='uId : '+isiPostback[2])
+            )
+            
 def balas(event,pesan):
     line_bot_api.reply_message(
                 event.reply_token,
@@ -84,13 +96,28 @@ def handle_message(event):
     elif(isi == 'hapusTest'):
         os.remove(os.path.join(APP_ROOT,'static','test'))
     elif(isi == '.kartuBohong'):
-        buttons_template = ButtonsTemplate(
-            title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
-                PostbackAction(label='ping', data='ping'),
-            ])
-        template_message = TemplateSendMessage(
-            alt_text='Kartu Bohong', template=buttons_template)
-        line_bot_api.reply_message(event.reply_token, template_message)
+        uId = event.source.user_id
+        valid = False
+        dataGameKartu = ''
+        if(isinstance(event.source,SourceGroup)):
+            gId = event.source.group_id
+            valid = True
+            dataGameKartu = 'gKB '+gId+' '+uId
+        elif(isinstance(event.source,SourceRoom)):
+            rId = event.source.room_id
+            valid = True
+            dataGameKartu = 'rKB '+rId+' '+uId
+        else:
+            balas(event,'Tidak bisa memulai permainan di 1:1 chat')
+        #Kirim button ke group/room
+        if(gameValid):
+            buttons_template = ButtonsTemplate(
+                title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
+                    PostbackAction(label='Join', data=dataGameKartu),
+                ])
+            template_message = TemplateSendMessage(
+                alt_text='Kartu Bohong', template=buttons_template)
+            line_bot_api.reply_message(event.reply_token, template_message)
     elif(isi == '.mulai'):
         pass
     elif(isi == '.berhenti'):
