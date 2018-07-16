@@ -180,7 +180,7 @@ def handle_message(event):
     #fungsi debug
     elif(isi == 'listPemain'):
         pemain = ''
-        for i in kartuBohong[idGame]
+        for i in kartuBohong[idGame]:
             pemain = pemain + i + '\n'
         balas(event,pemain)
     elif(isi == 'appRoot'):
