@@ -132,6 +132,7 @@ def getidGame(event):
         idGame = event.source.room_id
     else:
         idGame = ''
+    return idGame
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     isi = event.message.text
