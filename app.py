@@ -86,10 +86,11 @@ def hapusDirAman(pathDir,uID):
         pm(uID,'Hapus '+pathDir+' gagal')
 def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/waktuMulai')
+    turn = helperData.buka('static/turn')
     if(len(tIM)>=50):
         #kasus spesial
-        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID
-        path2='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+'_2'
+        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+turn[idGame]
+        path2='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+'_2'+turn[idGame]
         buatDirAman(path1)
         buatDirAman(path2)
         letak1 = helperKartu.genImagemap(path1,tIM[:25])
@@ -113,7 +114,7 @@ def gambarImagemap(idGame,uID,tIM):
         hapusDirAman(path2,uID)
     else:
         aksi = []
-        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID
+        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+turn[idGame]
         buatDirAman(path1)
         letak = helperKartu.genImagemap(path1,tIM)
         for let in letak:
@@ -183,7 +184,7 @@ def handle_message(event):
                 balas(event,'Game sudah dimulai, silahkan join dengan mengeklik tombol join')
             else:
                 dirW = strftime("%Y%m%d%H%M%S", gmtime())
-                os.mkdir(os.path.join(APP_ROOT,'static',idGame+' '+dirW))
+                os.mkdir(os.path.join(APP_ROOT,'static',idGame+'-'+dirW))
                 kB[idGame] = {}
                 turn[idGame] = 1
                 waktuMulai[idGame] = dirW
