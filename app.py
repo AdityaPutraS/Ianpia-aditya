@@ -24,7 +24,7 @@ line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 APP_ROOT = '/app'
 kartu = helperKartu.loadGambar()
-kartuBohong = {}
+kB = {}
 turn = {}
 #Bare minimum
 @app.route("/callback", methods=['POST'])
@@ -62,7 +62,7 @@ def handle_postback(event):
                 else:
                     #belum pernah gabung
                     os.mkdir(os.path.join(APP_ROOT,'static',isiPostback[1],isiPostback[2]))
-                    kartuBohong[isiPostback[1]][isiPostback[2]] = []
+                    kB[isiPostback[1]][isiPostback[2]] = []
                     line_bot_api.push_message(
                         isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
                     )
@@ -118,40 +118,36 @@ def handle_message(event):
         shutil.rmtree('static/test')
     elif(isi == '.kartuBohong'):
         uId = event.source.user_id
-        valid = False
         dataGameKartu = ''
         if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
-            valid = True
             dataGameKartu = 'KB '+idGame+' '+uId
-            if(idGame in kartuBohong):
+            if(idGame in kB):
                 balas(event,'Game sudah dimulai, silahkan join dengan mengeklik tombol join')
-                valid = False
             else:
                 os.mkdir(os.path.join(APP_ROOT,'static',idGame))
-                kartuBohong[idGame] = {}
+                kB[idGame] = {}
+                
+                buttons_template = ButtonsTemplate(
+                    title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
+                        PostbackAction(label='Join', data=dataGameKartu),
+                    ])
+                template_message = TemplateSendMessage(
+                    alt_text='Kartu Bohong', template=buttons_template)
+                line_bot_api.reply_message(event.reply_token, template_message)
         else:
-            balas(event,'Tidak bisa memulai permainan di 1:1 chat')
-        #Kirim button ke group/room
-        if(valid):       
-            buttons_template = ButtonsTemplate(
-                title='Join game Kartu Bohong', text='Klik untuk bergabung', actions=[
-                    PostbackAction(label='Join', data=dataGameKartu),
-                ])
-            template_message = TemplateSendMessage(
-                alt_text='Kartu Bohong', template=buttons_template)
-            line_bot_api.reply_message(event.reply_token, template_message)
+            balas(event,'Tidak bisa memulai permainan di 1:1 chat')    
     elif(isi == '.mulai'):
         if(idGame == ''):
             balas(event,'Tidak bisa digunakan di 1:1 chat')
         else:
             if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
                 turn[idGame] = 0
-                banyakPemain = len(kartuBohong[idGame])
+                banyakPemain = len(kB[idGame])
                 tmpKartu = helperKartu.bagiKartu(banyakPemain)
                 no = 0
-                for pemain in kartuBohong[idGame]:
+                for pemain in kB[idGame]:
                     os.mkdir(os.path.join(APP_ROOT,'static',idGame,pemain))
-                    kartuBohong[idGame][pemain] = tmpKartu[no]
+                    kb[idGame][pemain] = tmpKartu[no]
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
                     pathGambar = os.path.join('static',idGame,pemain,turn[idGame]+'.png')
                     gambar.save(pathGambar)
@@ -172,7 +168,7 @@ def handle_message(event):
         else:
             if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
                 shutil.rmtree('static/'+idGame)
-                del kartuBohong[idGame]
+                del kB[idGame]
                 del turn[idGame]
                 balas(event,'Game berhenti')
             else:
@@ -180,12 +176,12 @@ def handle_message(event):
     #fungsi debug
     elif(isi == 'listGame'):
         game = ''
-        for i in kartuBohong:
+        for i in kB:
             game = game + i + '\n'
         balas(event,game)
     elif(isi == 'listPemain'):
         pemain = ''
-        for i in kartuBohong[idGame] :
+        for i in kB[idGame] :
             pemain = pemain + i + '\n'
         balas(event,pemain)
     elif(isi == 'appRoot'):
