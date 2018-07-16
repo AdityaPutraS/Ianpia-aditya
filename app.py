@@ -179,6 +179,7 @@ def handle_message(event):
                     @after_this_request
                     def hapus(response):
                         os.remove(pathGambar)
+                        return response
                     urlGambar = request.host_url+pathGambar
                     line_bot_api.push_message(pemain,[
                         TextSendMessage(text='Ini Kartumu'),
