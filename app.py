@@ -100,10 +100,9 @@ def gambarImagemap(idGame,uID,tIM):
         for let in letak2:
             mesTmp = MessageImagemapAction(text='Kartu '+let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi2.append(mesTmp)
+        url1 = request.host_url+'static/'+idGame+'/'+uID
+        url2 = request.host_url+'static/'+idGame+'/'+uID+'_2'
         line_bot_api.push_message(uID,[
-            url1 = request.host_url+'static/'+idGame+'/'+uID
-            url2 = request.host_url+'static/'+idGame+'/'+uID+'_2'
-            #
             ImagemapSendMessage(base_url=url1,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
             ImagemapSendMessage(base_url=url2,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
             ]
