@@ -23,7 +23,6 @@ channel_access_token = os.getenv('CHANNEL_ACCESS', None)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 APP_ROOT = '/app'
-kartu = helperKartu.loadGambar()
 #Bare minimum
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -103,7 +102,7 @@ def handle_message(event):
                 
                 kartuPemain = helperKartu.bagiKartu(banyakPemain)
                 for i in range(0,banyakPemain):
-                    gambar = helperKartu.gambarKartuDiTangan(360,kartu,kartuPemain[i])
+                    gambar = helperKartu.gambarKartuDiTangan(360,kartuPemain[i])
                     pathGambar = os.path.join('static','test',str(i)+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+os.path.join('static','test',str(i)+'.png')
@@ -152,7 +151,7 @@ def handle_message(event):
                 tmpUrutan = []
                 for pemain in kB[idGame]:
                     kB[idGame][pemain] = tmpKartu[no]
-                    gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
+                    gambar = helperKartu.gambarKartuDiTangan(360,tmpKartu[no])
                     pathGambar = os.path.join('static',idGame,pemain+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+pathGambar
