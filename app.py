@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, after_this_request
 import os,shutil,json,math
 import helperKartu,helperData
 from PIL import Image
