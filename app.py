@@ -89,8 +89,8 @@ def gambarImagemap(idGame,uID,tIM):
     turn = helperData.buka('static/turn')
     if(len(tIM)>=50):
         #kasus spesial
-        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+turn[idGame]
-        path2='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+'_2'+turn[idGame]
+        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+str(turn[idGame])
+        path2='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+'_2'+str(turn[idGame])
         buatDirAman(path1)
         buatDirAman(path2)
         letak1 = helperKartu.genImagemap(path1,tIM[:25])
@@ -114,7 +114,7 @@ def gambarImagemap(idGame,uID,tIM):
         hapusDirAman(path2,uID)
     else:
         aksi = []
-        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+turn[idGame]
+        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+str(turn[idGame])
         buatDirAman(path1)
         letak = helperKartu.genImagemap(path1,tIM)
         for let in letak:
