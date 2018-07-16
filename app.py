@@ -1,5 +1,5 @@
 from flask import Flask, request, abort
-import os
+import os,shutil
 import helperKartu
 from PIL import Image
 
@@ -105,7 +105,7 @@ def handle_message(event):
                     line_bot_api.push_message(event.source.user_id,ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar))
                 balas(event,'Done')
     elif(isi == 'hapusTest'):
-        os.remove(os.path.join(APP_ROOT,'static','test'))
+        shutil.rmtree('static/test')
     elif(isi == '.kartuBohong'):
         uId = event.source.user_id
         valid = False
@@ -154,7 +154,7 @@ def handle_message(event):
             balas(event,'Tidak bisa digunakan di 1:1 chat')
         else:
             if(os.path.exists(os.path.join(APP_ROOT,'static',idGame))):
-                os.remove(os.path.join(APP_ROOT,'static',idGame))
+                shutil.rmtree('static/'+idGame)
                 balas(event,'Game berhenti')
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
