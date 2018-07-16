@@ -121,6 +121,8 @@ def handle_message(event):
     elif(isi == '.kartuBohong'):
         uId = event.source.user_id
         dataGameKartu = ''
+        turn = helperData.buka('static/'+'turn')
+        kB = helperData.buka('static/'+'kB')
         if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
             dataGameKartu = 'KB '+idGame+' '+uId
             if(idGame in kB):
