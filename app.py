@@ -78,7 +78,7 @@ def tanya(idGame,Uid):
     kartuDiTangan = kB[idGame][Uid]
     tmpCol = []
     for i in [x*4 for x in range(0,math.ceil(len(kartuDiTangan)/3))]:
-        tmpLi = kartuDiTangan[i:][:4]
+        tmpLi = kartuDiTangan[i:][:3]
         tmpAction = []
         for t in tmpLi:
             tmpAction.append(PostbackAction(label=t,data='pKB '+idGame+' '+Uid+' '+t))
@@ -176,10 +176,6 @@ def handle_message(event):
                     gambar = helperKartu.gambarKartuDiTangan(360,kartu,tmpKartu[no])
                     pathGambar = os.path.join('static',idGame,pemain,str(turn[idGame])+'.png')
                     gambar.save(pathGambar)
-                    @after_this_request
-                    def hapus(response):
-                        os.remove(pathGambar)
-                        return response
                     urlGambar = request.host_url+pathGambar
                     line_bot_api.push_message(pemain,[
                         TextSendMessage(text='Ini Kartumu'),
