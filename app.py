@@ -60,8 +60,8 @@ def handle_postback(event):
                 else:
                     #belum pernah gabung
                     os.mkdir(os.path.join(APP_ROOT,'static',isiPostback[1],isiPostback[2]))
-            else:
-                line_bot_api.push_message(isiPostback[1],TemplateSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong'))
+        else:
+            line_bot_api.push_message(isiPostback[1],TemplateSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong'))
         line_bot_api.push_message(
             isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
             )
