@@ -90,3 +90,21 @@ def gambarKartuDiTangan(sizeR,kartuTangan):
                 offsetX = int((size-(100+(kartuPerBaris-1)*offKarX))/2)
             offsetY += offKarY
     return background.resize((sizeR,sizeR),Image.ANTIALIAS)
+def genImagemap(dirKar,kartuTangan):
+    im = gambarKartuDiTangan(1040,kartuTangan)
+    im.save(dirKar+'/1040.png')
+    os.rename(dirKar+'/1040.png',dirKar+'/1040')
+    im.save(dirKar+'/1040.png')
+    im = gambarKartuDiTangan(700,kartuTangan)
+    im.save(dirKar+'/700')
+    os.rename(dirKar+'/700.png',dirKar+'/700')
+    im = gambarKartuDiTangan(460,kartuTangan)
+    im.save(dirKar+'/460')
+    os.rename(dirKar+'/460.png',dirKar+'/460')
+    im = gambarKartuDiTangan(300,kartuTangan)
+    im.save(dirKar+'/300')
+    os.rename(dirKar+'/300.png',dirKar+'/300')
+    im = gambarKartuDiTangan(240,kartuTangan)
+    im.save(dirKar+'/240')
+    os.rename(dirKar+'/240.png',dirKar+'/240')
+    
