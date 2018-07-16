@@ -227,6 +227,10 @@ def handle_message(event):
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
     elif(isi[:6] == 'Kartu '):
+        pilihan = helperData.buka('static/'+'pilihan')
+        turn = helperData.buka('static/'+'turn')
+        kB = helperData.buka('static/'+'kB')
+        urutanMain = helperData.buka('static/'+'urutanMain')
         if (isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
             idGame = getidGame(event)
             pm(idGame,'Tidak bisa dilakukan di sini, harus di 1:1 chat')
@@ -243,10 +247,6 @@ def handle_message(event):
             else:
                 #terdaftar
                 tmpI,nomorKartu,tipeKartu = isi.split()
-                pilihan = helperData.buka('static/'+'pilihan')
-                turn = helperData.buka('static/'+'turn')
-                kB = helperData.buka('static/'+'kB')
-                urutanMain = helperData.buka('static/'+'urutanMain')
                 #cek apakah sekarang gilirannya dia
                 if(urutanMain[idGame][turn[idGame]] == uId):
                     #cek apakah yang dipilih sudah 4
