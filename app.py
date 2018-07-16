@@ -156,9 +156,10 @@ def handle_message(event):
                     pathGambar = os.path.join('static',idGame,pemain+'.png')
                     gambar.save(pathGambar)
                     urlGambar = request.host_url+pathGambar
+                    urlPrev = request.host_url+os.path.join('static','res','clickDisini.jpg')
                     line_bot_api.push_message(pemain,[
                         TextSendMessage(text='Ini Kartumu'),
-                        ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlGambar)
+                        ImageSendMessage(original_content_url = urlGambar,preview_image_url = urlPrev)
                         ]
                     )
                     no += 1
