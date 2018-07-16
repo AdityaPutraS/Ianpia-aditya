@@ -69,7 +69,7 @@ def handle_postback(event):
                         isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
                     )
         else:
-            line_bot_api.push_message(isiPostback[1],TemplateSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong'))
+            line_bot_api.push_message(isiPostback[1],TemplateSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong.'))
     elif isiPostback[0] == 'Bohong':
         #cek apakah sudah ada yang menekan sebelumya
         bohong = helperData.buka('static/var'+'bohong')
