@@ -83,9 +83,9 @@ def gambarImagemap(event,tIM):
 
     if(len(tIM)>=50):
         #kasus spesial
-        letak1 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM[0][:25])
+        letak1 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM[:25])
         os.mkdir('static/'+idGame+'/'+event.source.user_id+'_2')
-        letak2 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id+'_2',tIM[0][25:])
+        letak2 = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id+'_2',tIM[25:])
         aksi1 = []
         for let in letak1:
             mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
@@ -101,7 +101,7 @@ def gambarImagemap(event,tIM):
         )
     else:
         aksi = []
-        letak = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM[0])
+        letak = helperKartu.genImagemap('static/'+idGame+'/'+event.source.user_id,tIM)
         for let in letak:
             mesTmp = MessageImagemapAction(text=let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi.append(mesTmp)
@@ -257,6 +257,6 @@ def handle_message(event):
         balas(event,text)
     elif(isi == 'imagemap'):
         tIM = helperKartu.bagiKartu(1)
-        gambarImagemap(event,tIM)
+        gambarImagemap(event,tIM[0])
 if __name__ == "__main__":
     app.run()
