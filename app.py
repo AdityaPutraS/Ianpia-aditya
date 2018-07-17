@@ -477,7 +477,7 @@ def handle_message(event):
             line_bot_api.push_message(idGame, template_message)
             #turn naik 1
             turn[idGame] = (turn[idGame]+1)%len(kB[idGame]) #<- menaikkan 1 turn, akan kembali ke 0 jika sudah sampai pemain terakhir
-            pm(idGame,'Sekarang adalah giliran : '+line_bot_api.get_profile(urutanMain[turn[idGame]]))
+            pm(idGame,'Sekarang adalah giliran : '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
             helperData.simpan(turn,'static/var/'+'turn')
             tanya(idGame,urutanMain[idGame][turn[idGame]])
     elif(isi == '.berhenti'):
