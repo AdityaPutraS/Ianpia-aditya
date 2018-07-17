@@ -63,17 +63,22 @@ def handle_postback(event):
                     #sudah pernah gabung
                     line_bot_api.push_message(isiPostback[1],TextSendMessage(text = 'Kamu sudah gabung, ketik .mulai untuk mulai'))
                 else:
-                    #belum pernah gabung
-                    kB[isiPostback[1]][isiPostback[2]] = []
-                    urutanMain = helperData.buka('static/var/'+'urutanMain')
-                    urutanMain[isiPostback[1]].append(sumber)
-                    helperData.simpan(urutanMain,'static/var/'+'urutanMain')
-                    #os.mkdir('static/'+isiPostback[1]+'-'+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
-                    helperData.simpan(kB,'static/var/'+'kB')
-                    nama = line_bot_api.get_profile(isiPostback[2]).display_name
-                    line_bot_api.push_message(
-                        isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
-                    )
+                    #cek apakah game sudah mulai
+                    mulai = helperData.buka('static/var/'+'mulai')
+                    if(mulai[isiPostback[1]]):
+                        pm(idGame,'Game sudah mulai, '+line_bot_api.get_profile(sumber).display_name+' tidak bisa bergabung')
+                    else:
+                        #belum pernah gabung
+                        kB[isiPostback[1]][isiPostback[2]] = []
+                        urutanMain = helperData.buka('static/var/'+'urutanMain')
+                        urutanMain[isiPostback[1]].append(sumber)
+                        helperData.simpan(urutanMain,'static/var/'+'urutanMain')
+                        #os.mkdir('static/'+isiPostback[1]+'-'+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
+                        helperData.simpan(kB,'static/var/'+'kB')
+                        nama = line_bot_api.get_profile(isiPostback[2]).display_name
+                        line_bot_api.push_message(
+                            isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
+                        )
         else:
             line_bot_api.push_message(isiPostback[1],TemplateSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong.'))
     elif isiPostback[0] == 'Bohong':
@@ -115,13 +120,13 @@ def handle_postback(event):
                     stackGame[idGame] = []
                     pm(idGame,'Karena '+line_bot_api.get_profile(sumber).display_name+' benar menebak, sekarang adalah gilirannya')
                     turn[idGame] = urutanMain[idGame].index(sumber)
+                    helperData.simpan(turn,'static/var/'+'turn')
                     pm(idGame,'Kartu sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting)')
                     bohong[idGame] = False
                     helperData.simpan(bohong,'static/var/'+'bohong')
                     helperData.simpan(kB,'static/var/'+'kB')
                     helperData.simpan(stackGame,'static/var/'+'stackGame')
                     helperData.simpan(curCard,'static/var/'+'curCard')
-                    helperData.simpan(turn,'static/var/'+'turn')
                     tanya(idGame,sumber)
                 else:
                     #tambah semua kartu ke yang menuduh
@@ -258,6 +263,7 @@ def handle_message(event):
         curCard = helperData.buka('static/var/'+'curCard')
         urutanMain = helperData.buka('static/var/'+'urutanMain')
         lastPlayer = helperData.buka('static/var/'+'lastPlayer')
+        mulai = helperData.buka('static/var/'+'mulai')
         if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
             dataGameKartu = 'KB '+idGame
             if(idGame in kB):
@@ -270,9 +276,11 @@ def handle_message(event):
                 waktuMulai[idGame] = dirW
                 urutanMain[idGame] = []
                 stackGame[idGame] = []
+                mulai[idGame] = False
                 lastPlayer[idGame] = ''
                 curCard[idGame] = helperKartu.urutan[0]
                 bohong[idGame] = False
+                helperData.simpan(mulai,'static/var/'+'mulai')
                 helperData.simpan(lastPlayer,'static/var/'+'lastPlayer')
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
                 helperData.simpan(bohong,'static/var/'+'bohong')
@@ -300,6 +308,7 @@ def handle_message(event):
                 kB = helperData.buka('static/var/'+'kB')
                 urutanMain = helperData.buka('static/var/'+'urutanMain')
                 pilihan = helperData.buka('static/var/'+'pilihan')
+                mulai = helperData.buka('static/var/'+'mulai')
                 pilihan[idGame] = {}
                 banyakPemain = len(kB[idGame])
                 tmpKartu = helperKartu.bagiKartu(banyakPemain)
@@ -315,6 +324,8 @@ def handle_message(event):
                     no+=1
                 urutan += 'Kembali ke awal'
                 urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
+                mulai[idGame] = True
+                helperData.simpan(mulai,'static/var/'+'mulai')
                 helperData.simpan(kB,'static/var/'+'kB')
                 helperData.simpan(turn,'static/var/'+'turn')
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
@@ -478,6 +489,8 @@ def handle_message(event):
                 curCard = helperData.buka('static/var/'+'curCard')
                 lastPlayer = helperData.buka('static/var/'+'lastPlayer')
                 stackGame = helperData.buka('static/var/'+'stackGame')
+                mulai = helperData.buka('static/var/'+'mulai')
+                del mulai[idGame]
                 del waktuMulai[idGame]
                 del stackGame[idGame]
                 del lastPlayer[idGame]
@@ -487,6 +500,7 @@ def handle_message(event):
                 del urutanMain[idGame]
                 del pilihan[idGame]
                 del bohong[idGame]
+                helperData.simpan(mulai,'static/var/'+'mulai')
                 helperData.simpan(waktuMulai,'static/var/'+'waktuMulai')
                 helperData.simpan(stackGame,'static/var/'+'stackGame')
                 helperData.simpan(lastPlayer,'static/var/'+'lastPlayer')
