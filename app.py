@@ -296,6 +296,10 @@ def handle_message(event):
                     no+=1
                 urutan += 'Kembali ke awal'
                 urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
+                helperData.simpan(kB,'static/var/'+'kB')
+                helperData.simpan(turn,'static/var/'+'turn')
+                helperData.simpan(urutanMain,'static/var/'+'urutanMain')
+                helperData.simpan(pilihan,'static/var/'+'pilihan')
                 namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
                 for pemain in kB[idGame]:
                     gambarImagemap(idGame,pemain,kB[idGame][pemain])
@@ -304,10 +308,6 @@ def handle_message(event):
                     TextSendMessage(text = 'Dimulai dari kartu 2 (wajik,hati,sekop,keriting) oleh '+ namaFirst)
                     ]
                 )
-                helperData.simpan(kB,'static/var/'+'kB')
-                helperData.simpan(turn,'static/var/'+'turn')
-                helperData.simpan(urutanMain,'static/var/'+'urutanMain')
-                helperData.simpan(pilihan,'static/var/'+'pilihan')
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
     elif(isi[:6] == 'Kartu '):
