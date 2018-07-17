@@ -249,7 +249,7 @@ def handle_message(event):
                 dirW = strftime("%Y%m%d%H%M%S", gmtime())
                 os.mkdir(os.path.join(APP_ROOT,'static',idGame+'-'+dirW))
                 kB[idGame] = {}
-                turn[idGame] = 1
+                turn[idGame] = 0
                 waktuMulai[idGame] = dirW
                 urutanMain[idGame] = {}
                 stackGame[idGame] = []
@@ -282,7 +282,6 @@ def handle_message(event):
                 urutanMain = helperData.buka('static/var/'+'urutanMain')
                 pilihan = helperData.buka('static/var/'+'pilihan')
                 pilihan[idGame] = {}
-                turn[idGame] = 0
                 banyakPemain = len(kB[idGame])
                 tmpKartu = helperKartu.bagiKartu(banyakPemain)
                 no = 0
