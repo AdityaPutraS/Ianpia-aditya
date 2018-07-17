@@ -422,7 +422,7 @@ def handle_message(event):
             if(uId in kB[id]):
                 idGame = id
         if(idGame == ''):
-            balas(uId,'Gabung dulu mas')
+            balas(event,'Gabung dulu mas')
         else:
             pilihan[idGame][uId] = []
             pm(uId,'Silahkan pilih lagi')
@@ -441,7 +441,7 @@ def handle_message(event):
             if(uId in kB[id]):
                 idGame = id
         if(idGame == ''):
-            balas(uId,'Gabung dulu bosq')
+            balas(event,'Gabung dulu bosq')
         else:
             banyakKartuDiTambah = len(pilihan[idGame][uId])
             pm(idGame,line_bot_api.get_profile(uId).display_name+' menambah '+str(banyakKartuDiTambah)+' kartu ke tumpukan')
