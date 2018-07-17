@@ -140,13 +140,13 @@ def hapusDirAman(pathDir,uID):
         #ganti jadi pass setelah game selesai
         pm(uID,'Hapus '+pathDir+' gagal')
 def hapusSemuaImagemap(idGame):
-    waktuMulai = helperData.buka('static/waktuMulai')
+    waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     path1='static/'+idGame+'-'+waktuMulai[idGame]
     for i in os.listdir(path1):
         hapusDirAman(path1+i)
 def gambarImagemap(idGame,uID,tIM):
-    waktuMulai = helperData.buka('static/waktuMulai')
-    turn = helperData.buka('static/turn')
+    waktuMulai = helperData.buka('static/var/'+'waktuMulai')
+    turn = helperData.buka('static/var'+'turn')
     if(len(tIM)>=50):
         #kasus spesial
         path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+str(turn[idGame])
