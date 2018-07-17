@@ -88,6 +88,8 @@ def handle_postback(event):
             curCard = helperData.buka('static/var/'+'curCard')
             turn = helperData.buka('static/var/'+'turn')
             urutanMain = helperData.buka('static/var/'+'urutanMain')
+            pm(uId_admin,'len(stackgame[idgame])='+str(len(stackGame[idGame])))
+            pm(uId_admin,'isi postback1 ='+isiPostback[1])
             tmpKartuGame = stackGame[idGame][len(stackGame[idGame])-int(isiPostback[1]):]
             bersalah = False
             isi = ''
