@@ -289,7 +289,6 @@ def handle_message(event):
                 tmpUrutan = []
                 for pemain in kB[idGame]:
                     kB[idGame][pemain] = tmpKartu[no]
-                    gambarImagemap(idGame,pemain,tmpKartu[no])
                     pilihan[idGame][pemain] = []
                     nama = line_bot_api.get_profile(pemain).display_name
                     tmpUrutan.append(pemain)
@@ -298,6 +297,8 @@ def handle_message(event):
                 urutan += 'Kembali ke awal'
                 urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
                 namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
+                for pemain in kB[idGame]:
+                    gambarImagemap(idGame,pemain,kB[idGame][pemain])
                 line_bot_api.push_message(idGame,[
                     TextSendMessage(text = 'Urutan bermain : '+urutan),
                     TextSendMessage(text = 'Dimulai dari kartu 2 (wajik,hati,sekop,keriting) oleh '+ namaFirst)
