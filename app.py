@@ -338,7 +338,8 @@ def handle_message(event):
                 helperData.simpan(turn,'static/var/'+'turn')
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
                 helperData.simpan(pilihan,'static/var/'+'pilihan')
-                namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
+                idFirst = urutanMain[idGame][0]
+                namaFirst = line_bot_api.get_profile(idFirst).display_name
                 for pemain in urutanMain[idGame]:
                     gambarImagemap(idGame,pemain,kB[idGame][pemain])
                 line_bot_api.push_message(idGame,[
