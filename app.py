@@ -251,7 +251,7 @@ def handle_message(event):
                 kB[idGame] = {}
                 turn[idGame] = 0
                 waktuMulai[idGame] = dirW
-                urutanMain[idGame] = {}
+                urutanMain[idGame] = []
                 stackGame[idGame] = []
                 curCard[idGame] = helperKartu.urutan[0]
                 bohong[idGame] = False
