@@ -428,6 +428,7 @@ def handle_message(event):
                 #hapus dari tangan pemain
                 idx = kB[idGame][uId].index(pil)
                 del kB[idGame][uId][idx]
+            pm(idGame,'Sekarang ada '+str(len(stackGame[idGame]))+' kartu di tumpukan')
             helperData.simpan(kB,'static/var/'+'kB')
             pilihan[idGame][uId] = []
             curCard = helperData.buka('static/var/'+'curCard')
