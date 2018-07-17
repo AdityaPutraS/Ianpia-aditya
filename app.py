@@ -47,7 +47,7 @@ def handle_postback(event):
     isiPostback = event.postback.data.split()
     sumber = event.source.user_id
     if isiPostback[0] == 'KB':
-        isiPostback[2] = sumber
+        isiPostback.append = sumber
         kB = helperData.buka('static/var/'+'kB')
         waktuMulai = helperData.buka('static/var/'+'waktuMulai')
         line_bot_api.push_message(
