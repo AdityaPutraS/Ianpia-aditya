@@ -1,21 +1,21 @@
 # Ianpia
 
-**Nama    : Aditya Putra Santosa
-NIM     : 16517407 / 13517013
-Jurusan : Teknik Informatika**
+**Nama    : Aditya Putra Santosa**<br />
+**NIM     : 16517407 / 13517013**<br />
+**Jurusan : Teknik Informatika**<br />
 
-** Ianpia ** (baca : * yan-pya * ) adalah bot Line dengan fitur bermain game ** Kartu Bohong **
+**Ianpia** (baca : *yan-pya* ) adalah bot Line dengan fitur bermain game **Kartu Bohong**
 dengan tujuan menyelesaikan tugas karya SPARTA 2017 HMIF ITB.
 
-Terima kasih saya ucapkan kepada teman-teman saya:
-    - Leonardo W.        (16517182)
-    - Ariel Razumardi   (16517089)
-    - Irfan Haris            (16517117)
-Karya ini tidak mungkin selesai tanpa bantuan teman-teman saya yang telah membantu pada tahap Testing & Debugging
+Terima kasih saya ucapkan kepada teman-teman saya:<br />
+- Leonardo W.       (16517182)<br />
+- Ariel Razumardi   (16517089)<br />
+- Irfan Haris       (16517117)<br />
+Karya ini tidak mungkin selesai tanpa bantuan teman-teman saya yang telah membantu pada tahap Testing & Debugging<br />
 
 ### Kartu Bohong
 
-** Kartu Bohong ** adalah suatu permainan kartu yang biasa dimainkan secara berbanyak (2-7 orang).
+**Kartu Bohong** adalah suatu permainan kartu yang biasa dimainkan secara berbanyak (2-7 orang).
 Game ini memiliki tujuan yang sederhana yaitu menghabiskan semua kartu di tangan.
 
 - Setiap pemain bergiliran mengeluarkan kartu dengan urutan 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, As, lalu kembali ke 2
@@ -35,35 +35,38 @@ Karena 2 kartu tersebut bukan Jack maka pemain yang berbohong tersebut harus men
 
 ### Cara menggunakkan Bot Ianpia
 
-** Ianpia ** bisa digunakan dengan menambahkan **@emn0538m** di **Line** lalu menginvitenya ke group
+**Ianpia** bisa digunakan dengan menambahkan **@emn0538m** di **Line** lalu menginvitenya ke group 
 
-Untuk memulai permainan ketik **.kartuBohong**, bot akan memberikan tombol join untuk bergabung (**ingat untuk tambahkan bot sebagai teman sebelum bergabung**)
-    **Note : jumlah pemain maksimal adalah 7 orang dan minimal 2 orang**
-Ketika semua pemain telah gabung, ketik **.mulai** untuk memulai permainan
-Setelah dimulai, bot akan memberi tahu urutan permainan di grup dan kartu dari setiap pemain melalui 1:1 chat
+Untuk memulai permainan ketik **.kartuBohong**, bot akan memberikan tombol join untuk bergabung (**ingat untuk tambahkan bot sebagai teman sebelum bergabung**) 
+    **Note : jumlah pemain maksimal adalah 7 orang dan minimal 2 orang** 
+Ketika semua pemain telah gabung, ketik **.mulai** untuk memulai permainan 
+Setelah dimulai, bot akan memberi tahu urutan permainan di grup dan kartu dari setiap pemain melalui 1:1 chat 
 ![Mulai](doc/mulai.jpg)
 
-Di 1:1 chat dengan bot, pemain akan mendapatkan gambar setiap kartu yang dimilikinya dalam bentuk Imagemap yang bisa diklik.
+Di 1:1 chat dengan bot, pemain akan mendapatkan gambar setiap kartu yang dimilikinya dalam bentuk Imagemap yang bisa diklik. 
 Klik kartu yang ingin ditambah ke tumpukkan (minimal 1, maksimal 4 kartu)
 ![Awal](doc/awalMain.jpg)
+
 Setelah itu bot akan memberi pilihan untuk submit ke tumpukan atau ulang pilih kartu
 ![Kartu awal](doc/memilihDanSubmit.jpg)
+
 Selain mengklik submit pemain juga bisa mengetik '**Gaskeun Bosq**' untuk submit
 
 Jika pemain memilih untuk mengulang maka pemain bisa mengklik tombol **Ulang** atau bisa juga mengetik **Aku mau ulang**, setelah itu pemain bisa mengeklik kembali kartu yang diinginkan
 ![Ulang](doc/ulangPilih.jpg)
 
-Jika sudah memilih dan mensubmit kartu ke tumpukan, di grup akan muncul pesan seperti berikut
+Jika sudah memilih dan mensubmit kartu ke tumpukan, di grup akan muncul pesan seperti berikut 
 ![Grup](doc/menambahKartu.jpg)
 
-Di grup juga muncul tombol **Bohong** untuk menuduh pemain yang terakhir menambahkan ke tumpukan
+Di grup juga muncul tombol **Bohong** untuk menuduh pemain yang terakhir menambahkan ke tumpukan 
 Jika di klik akan ada 2 kemungkinan yang muncul yaitu
     1. Pemain terakhir **berbohong**
 ![Bohong](doc/bohong.jpg)
+
     2. Pemain terakhir **jujur**
 ![Menuduh](doc/menuduh.jpg)
 
-Ketika salah satu pemain telah menghabiskan kartunya maka ia **menang** dan dikeluarkan dari permainan
+Ketika salah satu pemain telah menghabiskan kartunya maka ia **menang** dan dikeluarkan dari permainan 
 Jika sisa pemain hanyalah 1, maka pemain terakhir tersebut automatis **kalah**
 ![Akhir](doc/akhir.jpg)
 
@@ -72,5 +75,5 @@ Selain itu, game juga bisa diberhentikan di tengah tengah dengan perintah **.ber
 
 ### Kontak
 Jika ada masalah, bisa ditulis di bagian **Issue** di repo ini, atau bisa juga dengan mengontak saya di
-    - **Line : adityaputrasantosa**
+    - **Line : adityaputrasantosa** 
     - **Email : adityaputra159@gmail.com**
