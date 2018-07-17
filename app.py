@@ -66,19 +66,24 @@ def handle_postback(event):
                     #cek apakah game sudah mulai
                     mulai = helperData.buka('static/var/'+'mulai')
                     if(mulai[isiPostback[1]]):
-                        pm(isiPostback[0],'Game sudah mulai, '+line_bot_api.get_profile(sumber).display_name+' tidak bisa bergabung')
+                        pm(isiPostback[1],'Game sudah mulai, '+line_bot_api.get_profile(sumber).display_name+' tidak bisa bergabung')
                     else:
                         #belum pernah gabung
-                        kB[isiPostback[1]][isiPostback[2]] = []
-                        urutanMain = helperData.buka('static/var/'+'urutanMain')
-                        urutanMain[isiPostback[1]].append(sumber)
-                        helperData.simpan(urutanMain,'static/var/'+'urutanMain')
-                        #os.mkdir('static/'+isiPostback[1]+'-'+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
-                        helperData.simpan(kB,'static/var/'+'kB')
-                        nama = line_bot_api.get_profile(isiPostback[2]).display_name
-                        line_bot_api.push_message(
-                            isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
-                        )
+                        #cek apakah jumlah pemain sudah = 7
+                        if(len(kB[isiPostback[1]]) == 7):
+                            pm(isiPostback[1],'Jumlah pemain sudah 7, kamu tidak bisa gabung')
+                        else:
+                            #valid
+                            kB[isiPostback[1]][isiPostback[2]] = []
+                            urutanMain = helperData.buka('static/var/'+'urutanMain')
+                            urutanMain[isiPostback[1]].append(sumber)
+                            helperData.simpan(urutanMain,'static/var/'+'urutanMain')
+                            #os.mkdir('static/'+isiPostback[1]+'-'+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
+                            helperData.simpan(kB,'static/var/'+'kB')
+                            nama = line_bot_api.get_profile(isiPostback[2]).display_name
+                            line_bot_api.push_message(
+                                isiPostback[1], TextSendMessage(text=nama + ' berhasil bergabung')
+                            )
         else:
             line_bot_api.push_message(isiPostback[1],TemplateSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong.'))
     elif isiPostback[0] == 'Bohong':
@@ -363,39 +368,43 @@ def handle_message(event):
                 if(mulai[idGame]):
                     pm(idGame,'Game sudah mulai coy')
                 else:
-                    turn = helperData.buka('static/var/'+'turn')
                     kB = helperData.buka('static/var/'+'kB')
-                    urutanMain = helperData.buka('static/var/'+'urutanMain')
-                    pilihan = helperData.buka('static/var/'+'pilihan')
-                    banyakPemain = len(kB[idGame])
-                    tmpKartu = helperKartu.bagiKartu(banyakPemain)
-                    no = 0
-                    urutan = ''
-                    #tmpUrutan = []
-                    for pemain in kB[idGame]:
-                        kB[idGame][pemain] = tmpKartu[no]
-                        pilihan[idGame][pemain] = []
-                        nama = line_bot_api.get_profile(pemain).display_name
-                        #tmpUrutan.append(pemain)
-                        urutan = urutan + nama + '->'
-                        no+=1
-                    urutan += 'Kembali ke awal'
-                    #urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
-                    mulai[idGame] = True
-                    helperData.simpan(pilihan,'static/var/'+'pilihan')
-                    helperData.simpan(mulai,'static/var/'+'mulai')
-                    helperData.simpan(kB,'static/var/'+'kB')
-                    helperData.simpan(turn,'static/var/'+'turn')
-                    helperData.simpan(urutanMain,'static/var/'+'urutanMain')
-                    idFirst = urutanMain[idGame][0]
-                    namaFirst = line_bot_api.get_profile(idFirst).display_name
-                    for pemain in urutanMain[idGame]:
-                        gambarImagemap(idGame,pemain,kB[idGame][pemain])
-                    line_bot_api.push_message(idGame,[
-                        TextSendMessage(text = 'Urutan bermain : '+urutan),
-                        TextSendMessage(text = 'Dimulai dari kartu 2 (wajik,hati,sekop,keriting) oleh '+ namaFirst)
-                        ]
-                    )
+                    #cek apakah sudah ada 2 pemain minimal
+                    if(len(kB[idGame])>=2):
+                        turn = helperData.buka('static/var/'+'turn')
+                        urutanMain = helperData.buka('static/var/'+'urutanMain')
+                        pilihan = helperData.buka('static/var/'+'pilihan')
+                        banyakPemain = len(kB[idGame])
+                        tmpKartu = helperKartu.bagiKartu(banyakPemain)
+                        no = 0
+                        urutan = ''
+                        #tmpUrutan = []
+                        for pemain in kB[idGame]:
+                            kB[idGame][pemain] = tmpKartu[no]
+                            pilihan[idGame][pemain] = []
+                            nama = line_bot_api.get_profile(pemain).display_name
+                            #tmpUrutan.append(pemain)
+                            urutan = urutan + nama + '->'
+                            no+=1
+                        urutan += 'Kembali ke awal'
+                        #urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
+                        mulai[idGame] = True
+                        helperData.simpan(pilihan,'static/var/'+'pilihan')
+                        helperData.simpan(mulai,'static/var/'+'mulai')
+                        helperData.simpan(kB,'static/var/'+'kB')
+                        helperData.simpan(turn,'static/var/'+'turn')
+                        helperData.simpan(urutanMain,'static/var/'+'urutanMain')
+                        idFirst = urutanMain[idGame][0]
+                        namaFirst = line_bot_api.get_profile(idFirst).display_name
+                        for pemain in urutanMain[idGame]:
+                            gambarImagemap(idGame,pemain,kB[idGame][pemain])
+                        line_bot_api.push_message(idGame,[
+                            TextSendMessage(text = 'Urutan bermain : '+urutan),
+                            TextSendMessage(text = 'Dimulai dari kartu 2 (wajik,hati,sekop,keriting) oleh '+ namaFirst)
+                            ]
+                        )
+                    else:
+                        balas(event,'Jumlah pemain minimal 2 orang')
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
     elif(isi[:6] == 'Kartu '):
@@ -423,7 +432,7 @@ def handle_message(event):
                 if(urutanMain[idGame][turn[idGame]] == uId):
                     curCard = helperData.buka('static/var/'+'curCard')
                     pm(uId,'Kartu yang seharusnya kamu keluarkan sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting). Kamu juga bisa berbohong dengan memilih kartu lain')
-                    '''#cek apakah yang dipilih sudah 4
+                    #cek apakah yang dipilih sudah 4
                     if(len(pilihan[idGame][uId])==4):
                         listKartu = pilihan[idGame][uId][0]+', '+pilihan[idGame][uId][1]+', '+pilihan[idGame][uId][2]+', '+pilihan[idGame][uId][3]
                         confirm_template = ConfirmTemplate(text='Kamu sudah memilih 4 kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
@@ -434,31 +443,31 @@ def handle_message(event):
                             TextSendMessage(text = 'Pilihanmu adalah : '+listKartu),
                             TemplateSendMessage(alt_text='Sudah lebih dari 4', template=confirm_template)
                         ])
-                    else:'''
-                    #cek apakah beneran punya kartunya
-                    namaKartu = nomorKartu+' '+tipeKartu
-                    if(namaKartu in kB[idGame][uId]):
-                        #valid
-                        #cek apakah kartu sudah ada di pilihan
-                        if(namaKartu in pilihan[idGame][uId]):
-                            pm(uId,'Pilih kartu lain')
-                        else:
-                            pilihan[idGame][uId].append(namaKartu)
-                            listKartu = ''
-                            for l in pilihan[idGame][uId]:
-                                listKartu = listKartu + l + ', '
-                            listKartu = listKartu[:len(listKartu)-2] #<- potong ', ' di akhir
-                            confirm_template = ConfirmTemplate(text='Kamu sudah memilih '+str(len(pilihan[idGame][uId]))+' kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
-                                MessageAction(label='Submit', text='Gaskeun Bosq'),
-                                MessageAction(label='Ulang', text='Aku mau ulang'),
-                            ])
-                            line_bot_api.push_message(uId,[
-                                TextSendMessage(text = 'Pilihanmu adalah : '+listKartu),
-                                TemplateSendMessage(alt_text='Pilihan kartu', template=confirm_template)
-                            ])
                     else:
-                        #tidak valid
-                        balas(event,'Kamu tidak punya kartu '+namaKartu)
+                        #cek apakah beneran punya kartunya
+                        namaKartu = nomorKartu+' '+tipeKartu
+                        if(namaKartu in kB[idGame][uId]):
+                            #valid
+                            #cek apakah kartu sudah ada di pilihan
+                            if(namaKartu in pilihan[idGame][uId]):
+                                pm(uId,'Pilih kartu lain')
+                            else:
+                                pilihan[idGame][uId].append(namaKartu)
+                                listKartu = ''
+                                for l in pilihan[idGame][uId]:
+                                    listKartu = listKartu + l + ', '
+                                listKartu = listKartu[:len(listKartu)-2] #<- potong ', ' di akhir
+                                confirm_template = ConfirmTemplate(text='Kamu sudah memilih '+str(len(pilihan[idGame][uId]))+' kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
+                                    MessageAction(label='Submit', text='Gaskeun Bosq'),
+                                    MessageAction(label='Ulang', text='Aku mau ulang'),
+                                ])
+                                line_bot_api.push_message(uId,[
+                                    TextSendMessage(text = 'Pilihanmu adalah : '+listKartu),
+                                    TemplateSendMessage(alt_text='Pilihan kartu', template=confirm_template)
+                                ])
+                        else:
+                            #tidak valid
+                            balas(event,'Kamu tidak punya kartu '+namaKartu)
                 else:
                     balas(event,'Sekarang bukan giliranmu')
                 helperData.simpan(kB,'static/var/'+'kB')
