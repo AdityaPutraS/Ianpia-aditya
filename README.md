@@ -1,17 +1,17 @@
 # Ianpia
 
-**Nama    : Aditya Putra Santosa
-NIM     : 16517407 / 13517013
-Jurusan : Teknik Informatika**
+**Nama    : Aditya Putra Santosa**<br />
+**NIM     : 16517407 / 13517013**<br />
+**Jurusan : Teknik Informatika**<br />
 
 **Ianpia** (baca : *yan-pya* ) adalah bot Line dengan fitur bermain game **Kartu Bohong**
 dengan tujuan menyelesaikan tugas karya SPARTA 2017 HMIF ITB.
 
-Terima kasih saya ucapkan kepada teman-teman saya:
-- Leonardo W.       (16517182)
-- Ariel Razumardi   (16517089)
-- Irfan Haris       (16517117)
-Karya ini tidak mungkin selesai tanpa bantuan teman-teman saya yang telah membantu pada tahap Testing & Debugging
+Terima kasih saya ucapkan kepada teman-teman saya:<br />
+- Leonardo W.       (16517182)<br />
+- Ariel Razumardi   (16517089)<br />
+- Irfan Haris       (16517117)<br />
+Karya ini tidak mungkin selesai tanpa bantuan teman-teman saya yang telah membantu pada tahap Testing & Debugging<br />
 
 ### Kartu Bohong
 
