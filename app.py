@@ -92,16 +92,11 @@ def handle_postback(event):
             pm(uId_admin,'isi postback1 ='+isiPostback[1])
             tmpKartuGame = stackGame[idGame][len(stackGame[idGame])-int(isiPostback[1]):]
             bersalah = False
-            '''Debugging
-            isi = ''
             for t in tmpKartuGame:
                 #cek satu per satu
-                isi = isi + t + ', '
                 nomor,tipe = t.split()
                 if(nomor != curCard):
                     bersalah = True
-            pm(uId_admin,isi)
-            '''
             if(bersalah):
                 #tambah semua kartu ke yang berbohong
                 pm(idGame,line_bot_api.get_profile(uId).display_name+' berbohong, sebagai hukumannya, kartu di tangannya ditambah dengan semua kartu yang ada di tumpukan')
