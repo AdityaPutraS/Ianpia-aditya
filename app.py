@@ -50,12 +50,14 @@ def handle_postback(event):
         isiPostback.append(sumber)
         kB = helperData.buka('static/var/'+'kB')
         waktuMulai = helperData.buka('static/var/'+'waktuMulai')
+        '''
         line_bot_api.push_message(
             isiPostback[2], [
                 TextSendMessage(text='gId : '+isiPostback[1]),
                 TextSendMessage(text='uId : '+isiPostback[2])
             ]
         )
+        '''
         if(isiPostback[1] in kB):
                 if(isiPostback[2] in kB[isiPostback[1]]):
                     #sudah pernah gabung
@@ -316,7 +318,7 @@ def handle_message(event):
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
                 helperData.simpan(pilihan,'static/var/'+'pilihan')
                 namaFirst = line_bot_api.get_profile(urutanMain[idGame][0]).display_name
-                for pemain in kB[idGame]:
+                for pemain in urutanMain[idGame]:
                     gambarImagemap(idGame,pemain,kB[idGame][pemain])
                 line_bot_api.push_message(idGame,[
                     TextSendMessage(text = 'Urutan bermain : '+urutan),
