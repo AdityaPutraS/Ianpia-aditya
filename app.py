@@ -20,7 +20,7 @@ app = Flask(__name__)
 #Load variable lokal
 channel_secret = os.getenv('CHANNEL_SECRET', None)
 channel_access_token = os.getenv('CHANNEL_ACCESS', None)
-
+uId_admin = os.getenv('UID_ADITYA',None)
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 APP_ROOT = '/app'
@@ -143,7 +143,7 @@ def hapusSemuaImagemap(idGame):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     path1='static/'+idGame+'-'+waktuMulai[idGame]
     for i in os.listdir(path1):
-        hapusDirAman(path1+i)
+        hapusDirAman(path1+im,uId_admin)
 def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
@@ -389,6 +389,8 @@ def handle_message(event):
             balas(uId,'Gabung dulu mas')
         else:
             pilihan[idGame][uId] = []
+            pm(uId,'Silahkan pilih lagi')
+        helperData.simpan(pilihan,'static/var/'+'pilihan')    
     elif(isi == 'Gaskeun Bosq'):
         pilihan = helperData.buka('static/var/'+'pilihan')
         turn = helperData.buka('static/var/'+'turn')
