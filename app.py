@@ -3,7 +3,6 @@ import os,shutil,json,math,errno
 from time import gmtime, strftime
 import helperKartu,helperData
 from PIL import Image
-from random import shuffle
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -331,7 +330,7 @@ def handle_message(event):
                     urutan = urutan + nama + '->'
                     no+=1
                 urutan += 'Kembali ke awal'
-                urutanMain[idGame] = shuffle(tmpUrutan) #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
+                urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
                 mulai[idGame] = True
                 helperData.simpan(mulai,'static/var/'+'mulai')
                 helperData.simpan(kB,'static/var/'+'kB')
