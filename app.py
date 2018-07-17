@@ -366,7 +366,7 @@ def handle_message(event):
                     turn = helperData.buka('static/var/'+'turn')
                     kB = helperData.buka('static/var/'+'kB')
                     urutanMain = helperData.buka('static/var/'+'urutanMain')
-                    pilihan = helperData.buka('static/ver/'+'pilihan')
+                    pilihan = helperData.buka('static/var/'+'pilihan')
                     banyakPemain = len(kB[idGame])
                     tmpKartu = helperKartu.bagiKartu(banyakPemain)
                     no = 0
