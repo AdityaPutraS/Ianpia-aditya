@@ -268,6 +268,7 @@ def handle_message(event):
                 lastPlayer[idGame] = ''
                 curCard[idGame] = helperKartu.urutan[0]
                 bohong[idGame] = False
+                helperData.simpan(lastPlayer,'static/var/'+'lastPlayer')
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
                 helperData.simpan(bohong,'static/var/'+'bohong')
                 helperData.simpan(stackGame,'static/var/'+'stackGame')
