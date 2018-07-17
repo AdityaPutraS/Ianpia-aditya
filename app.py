@@ -172,8 +172,6 @@ def hapusSemuaImagemap(idGame):
     hapusDirAman('static/'+idGame+'-'+waktuMulai[idGame],uId_admin)
     os.mkdir('static/'+idGame+'-'+waktuMulai[idGame])
 def gambarImagemap(idGame,uID,tIM):
-    #hapus imagemap dari local
-    hapusSemuaImagemap(idGame)
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
     urutanMain = helperData.buka('static/var/'+'urutanMain')
@@ -465,6 +463,8 @@ def handle_message(event):
             idx = (helperKartu.urutan.index(curCard[idGame])+1)%13
             curCard[idGame] = helperKartu.urutan[idx]
             helperData.simpan(curCard,'static/var/'+'curCard')
+            #hapus imagemap dari local
+            hapusSemuaImagemap(idGame)
             #buat tombol bohong
             buttons_template = ButtonsTemplate(
                 title='Mencurigakan?', text='Tekan bohong jika kamu curiga dia berbohong', actions=[
