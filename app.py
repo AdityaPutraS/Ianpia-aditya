@@ -3,6 +3,7 @@ import os,shutil,json,math,errno
 from time import gmtime, strftime
 import helperKartu,helperData
 from PIL import Image
+from random import shuffle
 
 from linebot import (
     LineBotApi, WebhookHandler
