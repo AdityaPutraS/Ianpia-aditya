@@ -8,9 +8,9 @@ Jurusan : Teknik Informatika**
 dengan tujuan menyelesaikan tugas karya SPARTA 2017 HMIF ITB.
 
 Terima kasih saya ucapkan kepada teman-teman saya:
-    - Leonardo W.       (16517182)
-    - Ariel Razumardi   (16517089)
-    - Irfan Haris       (16517117)
+- Leonardo W.       (16517182)
+- Ariel Razumardi   (16517089)
+- Irfan Haris       (16517117)
 Karya ini tidak mungkin selesai tanpa bantuan teman-teman saya yang telah membantu pada tahap Testing & Debugging
 
 ### Kartu Bohong
@@ -35,15 +35,15 @@ Karena 2 kartu tersebut bukan Jack maka pemain yang berbohong tersebut harus men
 
 ### Cara menggunakkan Bot Ianpia
 
-**Ianpia** bisa digunakan dengan menambahkan **@emn0538m** di **Line** lalu menginvitenya ke group
+**Ianpia** bisa digunakan dengan menambahkan **@emn0538m** di **Line** lalu menginvitenya ke group 
 
-Untuk memulai permainan ketik **.kartuBohong**, bot akan memberikan tombol join untuk bergabung (**ingat untuk tambahkan bot sebagai teman sebelum bergabung**)
-    **Note : jumlah pemain maksimal adalah 7 orang dan minimal 2 orang**
-Ketika semua pemain telah gabung, ketik **.mulai** untuk memulai permainan
-Setelah dimulai, bot akan memberi tahu urutan permainan di grup dan kartu dari setiap pemain melalui 1:1 chat
+Untuk memulai permainan ketik **.kartuBohong**, bot akan memberikan tombol join untuk bergabung (**ingat untuk tambahkan bot sebagai teman sebelum bergabung**) 
+    **Note : jumlah pemain maksimal adalah 7 orang dan minimal 2 orang** 
+Ketika semua pemain telah gabung, ketik **.mulai** untuk memulai permainan 
+Setelah dimulai, bot akan memberi tahu urutan permainan di grup dan kartu dari setiap pemain melalui 1:1 chat 
 ![Mulai](doc/mulai.jpg)
 
-Di 1:1 chat dengan bot, pemain akan mendapatkan gambar setiap kartu yang dimilikinya dalam bentuk Imagemap yang bisa diklik.
+Di 1:1 chat dengan bot, pemain akan mendapatkan gambar setiap kartu yang dimilikinya dalam bentuk Imagemap yang bisa diklik. 
 Klik kartu yang ingin ditambah ke tumpukkan (minimal 1, maksimal 4 kartu)
 ![Awal](doc/awalMain.jpg)
 
@@ -55,10 +55,10 @@ Selain mengklik submit pemain juga bisa mengetik '**Gaskeun Bosq**' untuk submit
 Jika pemain memilih untuk mengulang maka pemain bisa mengklik tombol **Ulang** atau bisa juga mengetik **Aku mau ulang**, setelah itu pemain bisa mengeklik kembali kartu yang diinginkan
 ![Ulang](doc/ulangPilih.jpg)
 
-Jika sudah memilih dan mensubmit kartu ke tumpukan, di grup akan muncul pesan seperti berikut
+Jika sudah memilih dan mensubmit kartu ke tumpukan, di grup akan muncul pesan seperti berikut 
 ![Grup](doc/menambahKartu.jpg)
 
-Di grup juga muncul tombol **Bohong** untuk menuduh pemain yang terakhir menambahkan ke tumpukan
+Di grup juga muncul tombol **Bohong** untuk menuduh pemain yang terakhir menambahkan ke tumpukan 
 Jika di klik akan ada 2 kemungkinan yang muncul yaitu
     1. Pemain terakhir **berbohong**
 ![Bohong](doc/bohong.jpg)
@@ -66,7 +66,7 @@ Jika di klik akan ada 2 kemungkinan yang muncul yaitu
     2. Pemain terakhir **jujur**
 ![Menuduh](doc/menuduh.jpg)
 
-Ketika salah satu pemain telah menghabiskan kartunya maka ia **menang** dan dikeluarkan dari permainan
+Ketika salah satu pemain telah menghabiskan kartunya maka ia **menang** dan dikeluarkan dari permainan 
 Jika sisa pemain hanyalah 1, maka pemain terakhir tersebut automatis **kalah**
 ![Akhir](doc/akhir.jpg)
 
@@ -75,5 +75,5 @@ Selain itu, game juga bisa diberhentikan di tengah tengah dengan perintah **.ber
 
 ### Kontak
 Jika ada masalah, bisa ditulis di bagian **Issue** di repo ini, atau bisa juga dengan mengontak saya di
-    - **Line : adityaputrasantosa**
+    - **Line : adityaputrasantosa** 
     - **Email : adityaputra159@gmail.com**
