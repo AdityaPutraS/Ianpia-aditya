@@ -65,7 +65,10 @@ def handle_postback(event):
                 else:
                     #belum pernah gabung
                     kB[isiPostback[1]][isiPostback[2]] = []
-                    os.mkdir('static/'+isiPostback[1]+'-'+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
+                    urutanMain = helperData.buka('static/var/'+'urutanMain')
+                    urutanMain[isiPostback[1]].append(sumber)
+                    helperData.simpan(urutanMain,'static/var/'+'urutanMain')
+                    #os.mkdir('static/'+isiPostback[1]+'-'+waktuMulai[isiPostback[1]]+'/'+isiPostback[2])
                     helperData.simpan(kB,'static/var/'+'kB')
                     nama = line_bot_api.get_profile(isiPostback[2]).display_name
                     line_bot_api.push_message(
