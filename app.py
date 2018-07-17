@@ -90,11 +90,14 @@ def handle_postback(event):
             urutanMain = helperData.buka('static/var/'+'urutanMain')
             tmpKartuGame = stackGame[idGame][len(stackGame[idGame])-int(isiPostback[1]):]
             bersalah = False
+            isi = ''
             for t in tmpKartuGame:
                 #cek satu per satu
+                isi = isi + t + ', '
                 nomor,tipe = t.split()
                 if(nomor != curCard):
                     bersalah = True
+            pm(uId_admin,isi)
             if(bersalah):
                 #tambah semua kartu ke yang berbohong
                 pm(idGame,line_bot_api.get_profile(uId).display_name+' berbohong, sebagai hukumannya, kartu di tangannya ditambah dengan semua kartu yang ada di tumpukan')
@@ -113,7 +116,7 @@ def handle_postback(event):
                 pm(idGame,line_bot_api.get_profile(sumber).display_name+' sudah menuduh orang, dan dia salah.Sebagai hukumannya, kartu di tangannya ditambah dengan semua kartu yang ada di tumpukan')
                 kB[idGame][sumber] += stackGame[idGame]
                 stackGame[idGame] = []
-                pm(idGame,'Karena penuduh salah,giliran dilanjutkan seperti biasa.Sekarang adalah giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
+                pm(idGame,'Karena penuduh salah,giliran dilanjutkan seperti biasa.Sekarang adalah giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]).display_name)
                 pm(idGame,'Kartu sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting)')
                 helperData.simpan(kB,'static/var/'+'kB')
                 helperData.simpan(stackGame,'static/var/'+'stackGame')
@@ -138,16 +141,8 @@ def hapusDirAman(pathDir,uID):
         pm(uID,'Hapus '+pathDir+' gagal')
 def hapusSemuaImagemap(idGame):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
-    isi = ''
-    for i in os.listdir('static/'+idGame+'-'+waktuMulai[idGame]):
-        isi = isi + i +', '
-    pm(uId_admin,'isi sebelum dihapus : '+isi)
     hapusDirAman('static/'+idGame+'-'+waktuMulai[idGame],uId_admin)
     os.mkdir('static/'+idGame+'-'+waktuMulai[idGame])
-    isi = ''
-    for i in os.listdir('static/'+idGame+'-'+waktuMulai[idGame]):
-        isi = isi + i +', '
-    pm(uId_admin,'isi setelah dihapus : '+isi)
 def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
