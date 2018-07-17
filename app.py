@@ -81,6 +81,7 @@ def handle_postback(event):
         bohong = helperData.buka('static/var/'+'bohong')
         idGame = isiPostback[2]
         uId = isiPostback[3]
+        cekBohong = isiPostback[4]
         if(bohong[idGame]):
             #sudah ada yang menekannya duluan
             pm(sumber,'Sudah ditekan orang lain coy')
@@ -95,8 +96,6 @@ def handle_postback(event):
                 #cek apakah player sebelumnya bohong
                 #data='Bohong '+str(banyakKartuDiTambah)+' '+idGame+' '+uId),
                 kB = helperData.buka('static/var/'+'kB')
-                
-                curCard = helperData.buka('static/var/'+'curCard')
                 turn = helperData.buka('static/var/'+'turn')
                 urutanMain = helperData.buka('static/var/'+'urutanMain')
                 pm(uId_admin,'len(stackgame[idgame])='+str(len(stackGame[idGame])))
@@ -106,7 +105,7 @@ def handle_postback(event):
                 for t in tmpKartuGame:
                     #cek satu per satu
                     nomor,tipe = t.split()
-                    if(nomor != curCard):
+                    if(nomor != cekBohong):
                         bersalah = True
                 if(bersalah):
                     #tambah semua kartu ke yang berbohong
@@ -443,6 +442,7 @@ def handle_message(event):
             pilihan[idGame][uId] = []
             helperData.simpan(pilihan,'static/var/'+'pilihan')
             curCard = helperData.buka('static/var/'+'curCard')
+            cekBohong = curCard[idGame]
             idx = (helperKartu.urutan.index(curCard[idGame])+1)%13
             curCard[idGame] = helperKartu.urutan[idx]
             helperData.simpan(curCard,'static/var/'+'curCard')
@@ -451,7 +451,7 @@ def handle_message(event):
             #buat tombol bohong
             buttons_template = ButtonsTemplate(
                 title='Mencurigakan?', text='Tekan bohong jika kamu curiga dia berbohong', actions=[
-                    PostbackAction(label='Bohong', data='Bohong '+str(banyakKartuDiTambah)+' '+idGame+' '+lastPlayer[idGame]),
+                    PostbackAction(label='Bohong', data='Bohong '+str(banyakKartuDiTambah)+' '+idGame+' '+lastPlayer[idGame]+' 'cekBohong),
                 ])
             template_message = [
                     TemplateSendMessage(alt_text='Mencurigakan?', template=buttons_template),
