@@ -96,6 +96,7 @@ def handle_postback(event):
             if(len(stackGame[idGame])==0):
                 pm(sumber,'Gausah ngegas, masih kosong gitu lho tumpukannya')
             else:
+                menang = helperData.buka('static/var/'+'menang')
                 if(uId in menang[idGame]):
                     pm(idGame,'Dia sudah menang, gabisa dituduh lagi')
                 else:
@@ -383,10 +384,8 @@ def handle_message(event):
                 if(urutanMain[idGame][turn[idGame]] == uId):
                     curCard = helperData.buka('static/var/'+'curCard')
                     pm(uId,'Kartu yang seharusnya kamu keluarkan sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting). Kamu juga bisa berbohong dengan memilih kartu lain')
-                    #cek apakah yang dipilih sudah 4
+                    '''#cek apakah yang dipilih sudah 4
                     if(len(pilihan[idGame][uId])==4):
-                        pass
-                        '''
                         listKartu = pilihan[idGame][uId][0]+', '+pilihan[idGame][uId][1]+', '+pilihan[idGame][uId][2]+', '+pilihan[idGame][uId][3]
                         confirm_template = ConfirmTemplate(text='Kamu sudah memilih 4 kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
                             MessageAction(label='Submit', text='Gaskeun Bosq'),
@@ -396,32 +395,31 @@ def handle_message(event):
                             TextSendMessage(text = 'Pilihanmu adalah : '+listKartu),
                             TemplateSendMessage(alt_text='Sudah lebih dari 4', template=confirm_template)
                         ])
-                        '''#Matikan sementara untuk membuat kondisi menang
-                    else:
-                        #cek apakah beneran punya kartunya
-                        namaKartu = nomorKartu+' '+tipeKartu
-                        if(namaKartu in kB[idGame][uId]):
-                            #valid
-                            #cek apakah kartu sudah ada di pilihan
-                            if(namaKartu in pilihan[idGame][uId]):
-                                pm(uId,'Pilih kartu lain')
-                            else:
-                                pilihan[idGame][uId].append(namaKartu)
-                                listKartu = ''
-                                for l in pilihan[idGame][uId]:
-                                    listKartu = listKartu + l + ', '
-                                listKartu = listKartu[:len(listKartu)-2] #<- potong ', ' di akhir
-                                confirm_template = ConfirmTemplate(text='Kamu sudah memilih '+str(len(pilihan[idGame][uId]))+' kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
-                                    MessageAction(label='Submit', text='Gaskeun Bosq'),
-                                    MessageAction(label='Ulang', text='Aku mau ulang'),
-                                ])
-                                line_bot_api.push_message(uId,[
-                                    TextSendMessage(text = 'Pilihanmu adalah : '+listKartu),
-                                    TemplateSendMessage(alt_text='Pilihan kartu', template=confirm_template)
-                                ])
+                    else:'''
+                    #cek apakah beneran punya kartunya
+                    namaKartu = nomorKartu+' '+tipeKartu
+                    if(namaKartu in kB[idGame][uId]):
+                        #valid
+                        #cek apakah kartu sudah ada di pilihan
+                        if(namaKartu in pilihan[idGame][uId]):
+                            pm(uId,'Pilih kartu lain')
                         else:
-                            #tidak valid
-                            balas(event,'Kamu tidak punya kartu '+namaKartu)
+                            pilihan[idGame][uId].append(namaKartu)
+                            listKartu = ''
+                            for l in pilihan[idGame][uId]:
+                                listKartu = listKartu + l + ', '
+                            listKartu = listKartu[:len(listKartu)-2] #<- potong ', ' di akhir
+                            confirm_template = ConfirmTemplate(text='Kamu sudah memilih '+str(len(pilihan[idGame][uId]))+' kartu, tekan submit untuk submit pilihan, ulang untuk mengulang memilih', actions=[
+                                MessageAction(label='Submit', text='Gaskeun Bosq'),
+                                MessageAction(label='Ulang', text='Aku mau ulang'),
+                            ])
+                            line_bot_api.push_message(uId,[
+                                TextSendMessage(text = 'Pilihanmu adalah : '+listKartu),
+                                TemplateSendMessage(alt_text='Pilihan kartu', template=confirm_template)
+                            ])
+                    else:
+                        #tidak valid
+                        balas(event,'Kamu tidak punya kartu '+namaKartu)
                 else:
                     balas(event,'Sekarang bukan giliranmu')
                 helperData.simpan(kB,'static/var/'+'kB')
