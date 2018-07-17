@@ -58,7 +58,7 @@ def handle_postback(event):
         if(isiPostback[1] in kB):
                 if(isiPostback[2] in kB[isiPostback[1]]):
                     #sudah pernah gabung
-                    line_bot_api.push_message(isiPostback[1],TextSendMessage(text = 'Game belum dimulai, mulai dengan ketik .kartuBohong'))
+                    line_bot_api.push_message(isiPostback[1],TextSendMessage(text = 'Kamu sudah gabung, ketik .mulai untuk mulai'))
                 else:
                     #belum pernah gabung
                     kB[isiPostback[1]][isiPostback[2]] = []
@@ -147,6 +147,7 @@ def hapusSemuaImagemap(idGame):
 def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
+    urutanMain = helperData.buka('static/var/'+'urutanMain')
     if(len(tIM)>=50):
         #kasus spesial
         path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+str(turn[idGame])
@@ -165,10 +166,13 @@ def gambarImagemap(idGame,uID,tIM):
             aksi2.append(mesTmp)
         url1 = request.host_url+path1
         url2 = request.host_url+path2
-        line_bot_api.push_message(uID,[
-            ImagemapSendMessage(base_url=url1,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
-            ImagemapSendMessage(base_url=url2,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi2)
-            ]
+        pesan = [
+                TextSendMessage(text = 'Ini kartumu, pilih minimal 1 maksimal 4'),
+                ImagemapSendMessage(base_url=url1,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
+                ImagemapSendMessage(base_url=url2,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi2),
+                TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
+                ]
+        line_bot_api.push_message(uID,pesan)
         )
     else:
         aksi = []
@@ -178,14 +182,16 @@ def gambarImagemap(idGame,uID,tIM):
         for let in letak:
             mesTmp = MessageImagemapAction(text='Kartu '+let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi.append(mesTmp)
-        line_bot_api.push_message(uID,[
-            ImagemapSendMessage(base_url=request.host_url+path1,alt_text='Imagemap',base_size=BaseSize(width=1040,height=1040),actions=aksi)
-            ]
+        pesan = [
+                TextSendMessage(text = 'Ini kartumu, pilih minimal 1 maksimal 4'),
+                ImagemapSendMessage(base_url=url1,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi),
+                TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
+                ]
+        line_bot_api.push_message(uID,pesan)
         )
 def tanya(idGame,Uid):
     kB = helperData.buka('static/var/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
-    pm(Uid,'Ini Kartumu')
     gambarImagemap(idGame,Uid,kartuDiTangan)
 def pm(id,isi):
     line_bot_api.push_message(id,TextSendMessage(text=isi))
@@ -247,7 +253,7 @@ def handle_message(event):
                 turn[idGame] = 1
                 waktuMulai[idGame] = dirW
                 stackGame[idGame] = []
-                curCard = helperKartu.urutan[0]
+                curCard[idGame] = helperKartu.urutan[0]
                 bohong[idGame] = False
                 helperData.simpan(bohong,'static/var/'+'bohong')
                 helperData.simpan(stackGame,'static/var/'+'stackGame')
@@ -301,7 +307,6 @@ def handle_message(event):
                 helperData.simpan(turn,'static/var/'+'turn')
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
                 helperData.simpan(pilihan,'static/var/'+'pilihan')
-                tanya(idGame,urutanMain[idGame][0])
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
     elif(isi[:6] == 'Kartu '):
