@@ -135,7 +135,7 @@ def buatDirAman(pathDir):
         pass
 def hapusDirAman(pathDir,uID):
     try:
-        shutil.rmtree(pathDir)
+        shutil.rmtree(pathDir,ignore_errors=True)
     except OSError as exc:
         #ganti jadi pass setelah game selesai
         pm(uID,'Hapus '+pathDir+' gagal')
@@ -144,6 +144,10 @@ def hapusSemuaImagemap(idGame):
     path1='static/'+idGame+'-'+waktuMulai[idGame]
     for i in os.listdir(path1):
         hapusDirAman(path1+i,uId_admin)
+    isi = ''
+    for i in os.listdir(path1):
+        isi = isi + i + ',  '
+    pm(uId_admin,isi)
 def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
@@ -420,6 +424,11 @@ def handle_message(event):
                 #hapus dari tangan pemain
                 idx = kB[idGame][uId].index(pil)
                 del kB[idGame][uId][idx]
+            pilihan[idGame][uId] = []
+            curCard = helperData.buka('static/var/'+'curCard')
+            idx = (helperKartu.urutan.index(curCard[idGame])+1)%13
+            curCard[idGame] = helperKartu.urutan[idx]
+            helperData.simpan(curCard,'static/var/'+'curCard')
             #hapus imagemap dari local
             hapusSemuaImagemap(idGame)
             #buat tombol bohong
@@ -427,8 +436,10 @@ def handle_message(event):
                 title='Mencurigakan?', text='Tekan bohong jika kamu curiga dia berbohong', actions=[
                     PostbackAction(label='Bohong', data='Bohong '+str(banyakKartuDiTambah)+' '+idGame+' '+lastPlayer[idGame]),
                 ])
-            template_message = TemplateSendMessage(
-                alt_text='Mencurigakan?', template=buttons_template)
+            template_message = [
+                    TemplateSendMessage(alt_text='Mencurigakan?', template=buttons_template),
+                    TextSendMessage(text = 'Kartu sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting)')
+                ]
             line_bot_api.push_message(idGame, template_message)
             #turn naik 1
             turn[idGame] = (turn[idGame]+1)%len(kB[idGame]) #<- menaikkan 1 turn, akan kembali ke 0 jika sudah sampai pemain terakhir
