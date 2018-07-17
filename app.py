@@ -319,16 +319,16 @@ def handle_message(event):
                 tmpKartu = helperKartu.bagiKartu(banyakPemain)
                 no = 0
                 urutan = ''
-                tmpUrutan = []
+                #tmpUrutan = []
                 for pemain in kB[idGame]:
                     kB[idGame][pemain] = tmpKartu[no]
                     pilihan[idGame][pemain] = []
                     nama = line_bot_api.get_profile(pemain).display_name
-                    tmpUrutan.append(pemain)
+                    #tmpUrutan.append(pemain)
                     urutan = urutan + nama + '->'
                     no+=1
                 urutan += 'Kembali ke awal'
-                urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
+                #urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
                 mulai[idGame] = True
                 helperData.simpan(mulai,'static/var/'+'mulai')
                 helperData.simpan(kB,'static/var/'+'kB')
