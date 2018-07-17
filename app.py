@@ -143,6 +143,7 @@ def handle_postback(event):
                     turn[idGame] = (turn[idGame]+1)%len(kB[idGame]) #<- menaikkan 1 turn, akan kembali ke 0 jika sudah sampai pemain terakhir
                     helperData.simpan(turn,'static/var/'+'turn')
                     pm(idGame,'Karena penuduh salah,giliran dilanjutkan seperti biasa.Sekarang adalah giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]).display_name)
+                    curCard = helperData.buka('static/var/'+'curCard')
                     pm(idGame,'Kartu sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting)')
                     bohong[idGame] = False
                     helperData.simpan(bohong,'static/var/'+'bohong')
@@ -477,7 +478,7 @@ def handle_message(event):
             line_bot_api.push_message(idGame, template_message)
             #turn naik 1
             turn[idGame] = (turn[idGame]+1)%len(kB[idGame]) #<- menaikkan 1 turn, akan kembali ke 0 jika sudah sampai pemain terakhir
-            pm(idGame,'Sekarang adalah giliran : '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
+            pm(idGame,'Sekarang adalah giliran : '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]).display_name)
             helperData.simpan(turn,'static/var/'+'turn')
             tanya(idGame,urutanMain[idGame][turn[idGame]])
     elif(isi == '.berhenti'):
