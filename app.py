@@ -451,7 +451,7 @@ def handle_message(event):
             #buat tombol bohong
             buttons_template = ButtonsTemplate(
                 title='Mencurigakan?', text='Tekan bohong jika kamu curiga dia berbohong', actions=[
-                    PostbackAction(label='Bohong', data='Bohong '+str(banyakKartuDiTambah)+' '+idGame+' '+lastPlayer[idGame]+' 'cekBohong),
+                    PostbackAction(label='Bohong', data='Bohong '+str(banyakKartuDiTambah)+' '+idGame+' '+lastPlayer[idGame]+' '+cekBohong),
                 ])
             template_message = [
                     TemplateSendMessage(alt_text='Mencurigakan?', template=buttons_template),
