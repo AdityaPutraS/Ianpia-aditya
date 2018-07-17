@@ -8,14 +8,15 @@
 dengan tujuan menyelesaikan tugas karya SPARTA 2017 HMIF ITB.
 
 Terima kasih saya ucapkan kepada teman-teman saya:<br />
-- Leonardo W.       (16517182)<br />
-- Ariel Razumardi   (16517089)<br />
-- Irfan Haris       (16517117)<br />
+- Leonardo W. (16517182)<br />
+- Ariel Razumardi (16517089)<br />
+- Irfan Haris (16517117)<br />
+
 Karya ini tidak mungkin selesai tanpa bantuan teman-teman saya yang telah membantu pada tahap Testing & Debugging<br />
 
 ### Kartu Bohong
 
-**Kartu Bohong** adalah suatu permainan kartu yang biasa dimainkan secara berbanyak (2-7 orang).
+**Kartu Bohong** adalah suatu permainan kartu yang biasa dimainkan secara berbanyak (2-7 orang).<br />
 Game ini memiliki tujuan yang sederhana yaitu menghabiskan semua kartu di tangan.
 
 - Setiap pemain bergiliran mengeluarkan kartu dengan urutan 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King, As, lalu kembali ke 2
@@ -37,13 +38,15 @@ Karena 2 kartu tersebut bukan Jack maka pemain yang berbohong tersebut harus men
 
 **Ianpia** bisa digunakan dengan menambahkan **@emn0538m** di **Line** lalu menginvitenya ke group 
 
-Untuk memulai permainan ketik **.kartuBohong**, bot akan memberikan tombol join untuk bergabung (**ingat untuk tambahkan bot sebagai teman sebelum bergabung**) 
-    **Note : jumlah pemain maksimal adalah 7 orang dan minimal 2 orang** 
-Ketika semua pemain telah gabung, ketik **.mulai** untuk memulai permainan 
+Untuk memulai permainan ketik **.kartuBohong**, bot akan memberikan tombol join untuk bergabung <br />
+    **Note : <br />
+            - ingat untuk tambahkan bot sebagai teman sebelum bergabung<br />
+             - jumlah pemain maksimal adalah 7 orang dan minimal 2 orang** <br />
+Ketika semua pemain telah gabung, ketik **.mulai** untuk memulai permainan <br />
 Setelah dimulai, bot akan memberi tahu urutan permainan di grup dan kartu dari setiap pemain melalui 1:1 chat 
 ![Mulai](doc/mulai.jpg)
 
-Di 1:1 chat dengan bot, pemain akan mendapatkan gambar setiap kartu yang dimilikinya dalam bentuk Imagemap yang bisa diklik. 
+Di 1:1 chat dengan bot, pemain akan mendapatkan gambar setiap kartu yang dimilikinya dalam bentuk Imagemap yang bisa diklik. <br />
 Klik kartu yang ingin ditambah ke tumpukkan (minimal 1, maksimal 4 kartu)
 ![Awal](doc/awalMain.jpg)
 
@@ -60,10 +63,10 @@ Jika sudah memilih dan mensubmit kartu ke tumpukan, di grup akan muncul pesan se
 
 Di grup juga muncul tombol **Bohong** untuk menuduh pemain yang terakhir menambahkan ke tumpukan 
 Jika di klik akan ada 2 kemungkinan yang muncul yaitu
-    1. Pemain terakhir **berbohong**
+   Pemain terakhir **berbohong**<br />
 ![Bohong](doc/bohong.jpg)
 
-    2. Pemain terakhir **jujur**
+   Pemain terakhir **jujur**<br />
 ![Menuduh](doc/menuduh.jpg)
 
 Ketika salah satu pemain telah menghabiskan kartunya maka ia **menang** dan dikeluarkan dari permainan 
@@ -74,6 +77,6 @@ Selain itu, game juga bisa diberhentikan di tengah tengah dengan perintah **.ber
 ![berhenti](doc/berhenti.jpg)
 
 ### Kontak
-Jika ada masalah, bisa ditulis di bagian **Issue** di repo ini, atau bisa juga dengan mengontak saya di
-    - **Line : adityaputrasantosa** 
-    - **Email : adityaputra159@gmail.com**
+Jika ada masalah, bisa ditulis di bagian **Issue** di repo ini, atau bisa juga dengan mengontak saya di:<br />
+    - **Line : adityaputrasantosa** <br />
+    - **Email : adityaputra159@gmail.com**<br />
