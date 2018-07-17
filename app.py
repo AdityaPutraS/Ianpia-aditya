@@ -382,6 +382,7 @@ def handle_message(event):
                     urutan += 'Kembali ke awal'
                     #urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
                     mulai[idGame] = True
+                    helperData.simpan(pilihan,'static/var/'+'pilihan')
                     helperData.simpan(mulai,'static/var/'+'mulai')
                     helperData.simpan(kB,'static/var/'+'kB')
                     helperData.simpan(turn,'static/var/'+'turn')
