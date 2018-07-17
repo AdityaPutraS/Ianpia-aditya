@@ -241,6 +241,7 @@ def handle_message(event):
         bohong = helperData.buka('static/var/'+'bohong')
         curCard = helperData.buka('static/var/'+'curCard')
         urutanMain = helperData.buka('static/var/'+'urutanMain')
+        lastPlayer = helperData.buka('static/var/'+'lastPlayer')
         if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
             dataGameKartu = 'KB '+idGame+' '+uId
             if(idGame in kB):
@@ -253,6 +254,7 @@ def handle_message(event):
                 waktuMulai[idGame] = dirW
                 urutanMain[idGame] = []
                 stackGame[idGame] = []
+                lastPlayer[idGame] = ''
                 curCard[idGame] = helperKartu.urutan[0]
                 bohong[idGame] = False
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
@@ -398,6 +400,7 @@ def handle_message(event):
         urutanMain = helperData.buka('static/var/'+'urutanMain')
         waktuMulai = helperData.buka('static/var/'+'waktuMulai')
         stackGame = helperData.buka('static/var/'+'stackGame')
+        lastPlayer = helperData.buka('static/var/'+'lastPlayer')
         #cari idGame
         idGame = ''
         for id in kB:
@@ -408,6 +411,8 @@ def handle_message(event):
         else:
             banyakKartuDiTambah = len(pilihan[idGame][uId])
             pm(idGame,line_bot_api.get_profile(uId).display_name+' menambah '+str(banyakKartuDiTambah)+' kartu ke tumpukan')
+            lastPlayer[idGame] = uId
+            helperData.simpan(lastPlayer,'static/var/'+'lastPlayer')
             for pil in pilihan[idGame][uId]:
                 #tambah ke tumpukan game
                 stackGame[idGame].append(pil)
@@ -418,8 +423,8 @@ def handle_message(event):
             hapusSemuaImagemap(idGame)
             #buat tombol bohong
             buttons_template = ButtonsTemplate(
-                title='Mencurigakan?', text='Tekan bohong jika kamu curiga dia berbohong (Tombol ini tidak bisa digunakan saat pemain berikutnya sudah menambah kartu)', actions=[
-                    PostbackAction(label='Bohong', data='Bohong '+str(banyakKartuDiTambah)+' '+idGame+' '+uId),
+                title='Mencurigakan?', text='Tekan bohong jika kamu curiga dia berbohong', actions=[
+                    PostbackAction(label='Bohong', data='Bohong '+str(banyakKartuDiTambah)+' '+idGame+' '+lastPlayer[idGame]),
                 ])
             template_message = TemplateSendMessage(
                 alt_text='Mencurigakan?', template=buttons_template)
@@ -446,18 +451,27 @@ def handle_message(event):
                 urutanMain = helperData.buka('static/var/'+'urutanMain')
                 pilihan = helperData.buka('static/var/'+'pilihan')
                 bohong = helperData.buka('static/var/'+'bohong')
+                curCard = helperData.buka('static/var/'+'curCard')
+                lastPlayer = helperData.buka('static/var/'+'lastPlayer')
+                stackGame = helperData.buka('static/var/'+'stackGame')
+                del waktuMulai[idGame]
+                del stackGame[idGame]
+                del lastPlayer[idGame]
+                del curCard[idGame]
                 del kB[idGame]
                 del turn[idGame]
                 del urutanMain[idGame]
                 del pilihan[idGame]
-                del waktuMulai[idGame]
                 del bohong[idGame]
+                helperData.simpan(waktuMulai,'static/var/'+'waktuMulai)
+                helperData.simpan(stackGame,'static/var/'+'stackGame)
+                helperData.simpan(lastPlayer,'static/var/'+'lastPlayer')
+                helperData.simpan(curCard,'static/var/'+'curCard')
                 helperData.simpan(bohong,'static/var/'+'bohong')
                 helperData.simpan(kB,'static/var/'+'kB')
                 helperData.simpan(turn,'static/var/'+'turn')
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
                 helperData.simpan(pilihan,'static/var/'+'pilihan')
-                helperData.simpan(waktuMulai,'static/var/'+'waktuMulai')
                 balas(event,'Game berhenti')
             else:
                 balas(event,'Game belum dimulai bahkan. Mulai dengan .kartuBohong')
