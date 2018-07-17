@@ -47,6 +47,7 @@ def handle_postback(event):
     isiPostback = event.postback.data.split()
     sumber = event.source.user_id
     if isiPostback[0] == 'KB':
+        isiPostback[2] = sumber
         kB = helperData.buka('static/var/'+'kB')
         waktuMulai = helperData.buka('static/var/'+'waktuMulai')
         line_bot_api.push_message(
@@ -254,7 +255,7 @@ def handle_message(event):
         urutanMain = helperData.buka('static/var/'+'urutanMain')
         lastPlayer = helperData.buka('static/var/'+'lastPlayer')
         if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
-            dataGameKartu = 'KB '+idGame+' '+uId
+            dataGameKartu = 'KB '+idGame
             if(idGame in kB):
                 balas(event,'Game sudah dimulai, silahkan join dengan mengeklik tombol join')
             else:
