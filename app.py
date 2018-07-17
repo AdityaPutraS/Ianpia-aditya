@@ -170,7 +170,7 @@ def gambarImagemap(idGame,uID,tIM):
                 TextSendMessage(text = 'Ini kartumu, pilih minimal 1 maksimal 4'),
                 ImagemapSendMessage(base_url=url1,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
                 ImagemapSendMessage(base_url=url2,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi2),
-                TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
+                TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]).display_name)
                 ]
         line_bot_api.push_message(uID,pesan)
     else:
@@ -184,7 +184,7 @@ def gambarImagemap(idGame,uID,tIM):
         pesan = [
                 TextSendMessage(text = 'Ini kartumu, pilih minimal 1 maksimal 4'),
                 ImagemapSendMessage(base_url=url1,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi),
-                TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
+                TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]).display_name)
                 ]
         line_bot_api.push_message(uID,pesan)
 def tanya(idGame,Uid):
