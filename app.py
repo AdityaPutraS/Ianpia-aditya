@@ -66,7 +66,7 @@ def handle_postback(event):
                     #cek apakah game sudah mulai
                     mulai = helperData.buka('static/var/'+'mulai')
                     if(mulai[isiPostback[1]]):
-                        pm(idGame,'Game sudah mulai, '+line_bot_api.get_profile(sumber).display_name+' tidak bisa bergabung')
+                        pm(isiPostback[0],'Game sudah mulai, '+line_bot_api.get_profile(sumber).display_name+' tidak bisa bergabung')
                     else:
                         #belum pernah gabung
                         kB[isiPostback[1]][isiPostback[2]] = []
@@ -121,6 +121,12 @@ def handle_postback(event):
                     pm(idGame,'Karena '+line_bot_api.get_profile(sumber).display_name+' benar menebak, sekarang adalah gilirannya')
                     turn[idGame] = urutanMain[idGame].index(sumber)
                     helperData.simpan(turn,'static/var/'+'turn')
+                    #pc semua pemain bahwa giliran berubah
+                    for pemain in urutanMain[idGame]:
+                        if(pemain == sumber):
+                            pass
+                        else:
+                            pc(pemain,'Giliran ganti menjadi '+line_bot_api.get_profile(sumber).display_name)
                     pm(idGame,'Kartu sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting)')
                     bohong[idGame] = False
                     helperData.simpan(bohong,'static/var/'+'bohong')
@@ -166,6 +172,8 @@ def hapusSemuaImagemap(idGame):
     hapusDirAman('static/'+idGame+'-'+waktuMulai[idGame],uId_admin)
     os.mkdir('static/'+idGame+'-'+waktuMulai[idGame])
 def gambarImagemap(idGame,uID,tIM):
+    #hapus imagemap dari local
+    hapusSemuaImagemap(idGame)
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
     urutanMain = helperData.buka('static/var/'+'urutanMain')
@@ -189,10 +197,8 @@ def gambarImagemap(idGame,uID,tIM):
         url1 = request.host_url+path1
         url2 = request.host_url+path2
         pesan = [
-                TextSendMessage(text = 'Ini kartumu, pilih minimal 1 maksimal 4'),
                 ImagemapSendMessage(base_url=url1,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi1),
                 ImagemapSendMessage(base_url=url2,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi2),
-                TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]).display_name)
                 ]
         line_bot_api.push_message(uID,pesan)
     else:
@@ -205,14 +211,13 @@ def gambarImagemap(idGame,uID,tIM):
             aksi.append(mesTmp)
         url1 = request.host_url+path1
         pesan = [
-                TextSendMessage(text = 'Ini kartumu, pilih minimal 1 maksimal 4'),
                 ImagemapSendMessage(base_url=url1,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi),
-                TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]).display_name)
                 ]
         line_bot_api.push_message(uID,pesan)
 def tanya(idGame,Uid):
     kB = helperData.buka('static/var/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
+    pm(Uid,'Sekarang giliramu')
     gambarImagemap(idGame,Uid,kartuDiTangan)
 def pm(id,isi):
     line_bot_api.push_message(id,TextSendMessage(text=isi))
@@ -325,7 +330,7 @@ def handle_message(event):
                     urutan = urutan + nama + '->'
                     no+=1
                 urutan += 'Kembali ke awal'
-                urutanMain[idGame] = tmpUrutan #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
+                urutanMain[idGame] = shuffle(tmpUrutan) #berisi id urutan permainan di game dengan id : idGame seperti berikut ['Cqadadba1g31ev19..','1iufqjk9jfnk...',...]
                 mulai[idGame] = True
                 helperData.simpan(mulai,'static/var/'+'mulai')
                 helperData.simpan(kB,'static/var/'+'kB')
@@ -459,8 +464,6 @@ def handle_message(event):
             idx = (helperKartu.urutan.index(curCard[idGame])+1)%13
             curCard[idGame] = helperKartu.urutan[idx]
             helperData.simpan(curCard,'static/var/'+'curCard')
-            #hapus imagemap dari local
-            hapusSemuaImagemap(idGame)
             #buat tombol bohong
             buttons_template = ButtonsTemplate(
                 title='Mencurigakan?', text='Tekan bohong jika kamu curiga dia berbohong', actions=[
@@ -473,6 +476,7 @@ def handle_message(event):
             line_bot_api.push_message(idGame, template_message)
             #turn naik 1
             turn[idGame] = (turn[idGame]+1)%len(kB[idGame]) #<- menaikkan 1 turn, akan kembali ke 0 jika sudah sampai pemain terakhir
+            pm(idGame,'Sekarang adalah giliran : '+line_bot_api.get_profile(urutanMain[turn[idGame]]))
             helperData.simpan(turn,'static/var/'+'turn')
             tanya(idGame,urutanMain[idGame][turn[idGame]])
     elif(isi == '.berhenti'):
