@@ -143,7 +143,7 @@ def hapusSemuaImagemap(idGame):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     path1='static/'+idGame+'-'+waktuMulai[idGame]
     for i in os.listdir(path1):
-        hapusDirAman(path1+im,uId_admin)
+        hapusDirAman(path1+i,uId_admin)
 def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
