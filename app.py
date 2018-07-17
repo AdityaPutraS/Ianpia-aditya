@@ -141,6 +141,7 @@ def hapusDirAman(pathDir,uID):
         pm(uID,'Hapus '+pathDir+' gagal')
 def hapusSemuaImagemap(idGame):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
+    '''
     path1='static/'+idGame+'-'+waktuMulai[idGame]
     for i in os.listdir(path1):
         hapusDirAman(path1+i,uId_admin)
@@ -148,6 +149,9 @@ def hapusSemuaImagemap(idGame):
     for i in os.listdir(path1):
         isi = isi + i + ',  '
     pm(uId_admin,isi)
+    '''
+    hapusDirAman('static/'+idGame+'-'+waktuMulai[idGame],uId_admin)
+    os.mkdir('static/'+idGame+'-'+waktuMulai[idGame])
 def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
@@ -424,6 +428,7 @@ def handle_message(event):
                 #hapus dari tangan pemain
                 idx = kB[idGame][uId].index(pil)
                 del kB[idGame][uId][idx]
+            helperData.simpan(kB,'static/var/'+'kB')
             pilihan[idGame][uId] = []
             curCard = helperData.buka('static/var/'+'curCard')
             idx = (helperKartu.urutan.index(curCard[idGame])+1)%13
@@ -445,7 +450,6 @@ def handle_message(event):
             turn[idGame] = (turn[idGame]+1)%len(kB[idGame]) #<- menaikkan 1 turn, akan kembali ke 0 jika sudah sampai pemain terakhir
             tanya(idGame,urutanMain[idGame][turn[idGame]])
         helperData.simpan(stackGame,'static/var/'+'stackGame')
-        helperData.simpan(kB,'static/var/'+'kB')
         helperData.simpan(turn,'static/var/'+'turn')
         helperData.simpan(urutanMain,'static/var/'+'urutanMain')
         helperData.simpan(pilihan,'static/var/'+'pilihan')
