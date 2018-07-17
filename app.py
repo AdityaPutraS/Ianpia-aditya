@@ -240,6 +240,7 @@ def handle_message(event):
         stackGame = helperData.buka('static/var/'+'stackGame')
         bohong = helperData.buka('static/var/'+'bohong')
         curCard = helperData.buka('static/var/'+'curCard')
+        urutanMain = helperData.buka('static/var/'+'urutanMain')
         if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
             dataGameKartu = 'KB '+idGame+' '+uId
             if(idGame in kB):
@@ -250,9 +251,11 @@ def handle_message(event):
                 kB[idGame] = {}
                 turn[idGame] = 1
                 waktuMulai[idGame] = dirW
+                urutanMain[idGame] = {}
                 stackGame[idGame] = []
                 curCard[idGame] = helperKartu.urutan[0]
                 bohong[idGame] = False
+                helperData.simpan(urutanMain,'static/var/'+'urutanMain')
                 helperData.simpan(bohong,'static/var/'+'bohong')
                 helperData.simpan(stackGame,'static/var/'+'stackGame')
                 helperData.simpan(curCard,'static/var/'+'curCard')
