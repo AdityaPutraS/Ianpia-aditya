@@ -92,6 +92,7 @@ def handle_postback(event):
             pm(uId_admin,'isi postback1 ='+isiPostback[1])
             tmpKartuGame = stackGame[idGame][len(stackGame[idGame])-int(isiPostback[1]):]
             bersalah = False
+            '''Debugging
             isi = ''
             for t in tmpKartuGame:
                 #cek satu per satu
@@ -100,6 +101,7 @@ def handle_postback(event):
                 if(nomor != curCard):
                     bersalah = True
             pm(uId_admin,isi)
+            '''
             if(bersalah):
                 #tambah semua kartu ke yang berbohong
                 pm(idGame,line_bot_api.get_profile(uId).display_name+' berbohong, sebagai hukumannya, kartu di tangannya ditambah dengan semua kartu yang ada di tumpukan')
@@ -183,6 +185,7 @@ def gambarImagemap(idGame,uID,tIM):
         for let in letak:
             mesTmp = MessageImagemapAction(text='Kartu '+let[0],area=ImagemapArea(x=let[1][0],y=let[1][1],width=let[2][0],height=let[2][1]))
             aksi.append(mesTmp)
+        url1 = request.host_url+path1
         pesan = [
                 TextSendMessage(text = 'Ini kartumu, pilih minimal 1 maksimal 4'),
                 ImagemapSendMessage(base_url=url1,alt_text='Kartumu',base_size=BaseSize(width=1040,height=1040),actions=aksi),
@@ -421,9 +424,11 @@ def handle_message(event):
                 #hapus dari tangan pemain
                 idx = kB[idGame][uId].index(pil)
                 del kB[idGame][uId][idx]
+            helperData.simpan(stackGame,'static/var/'+'stackGame')
             pm(idGame,'Sekarang ada '+str(len(stackGame[idGame]))+' kartu di tumpukan')
             helperData.simpan(kB,'static/var/'+'kB')
             pilihan[idGame][uId] = []
+            helperData.simpan(pilihan,'static/var/'+'pilihan')
             curCard = helperData.buka('static/var/'+'curCard')
             idx = (helperKartu.urutan.index(curCard[idGame])+1)%13
             curCard[idGame] = helperKartu.urutan[idx]
@@ -442,12 +447,8 @@ def handle_message(event):
             line_bot_api.push_message(idGame, template_message)
             #turn naik 1
             turn[idGame] = (turn[idGame]+1)%len(kB[idGame]) #<- menaikkan 1 turn, akan kembali ke 0 jika sudah sampai pemain terakhir
+            helperData.simpan(turn,'static/var/'+'turn')
             tanya(idGame,urutanMain[idGame][turn[idGame]])
-        helperData.simpan(stackGame,'static/var/'+'stackGame')
-        helperData.simpan(turn,'static/var/'+'turn')
-        helperData.simpan(urutanMain,'static/var/'+'urutanMain')
-        helperData.simpan(pilihan,'static/var/'+'pilihan')
-        helperData.simpan(waktuMulai,'static/var/'+'waktuMulai')
     elif(isi == '.berhenti'):
         #check apakah game sudah ada
         if(idGame == ''):
