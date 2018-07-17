@@ -225,8 +225,8 @@ def tanya(idGame,Uid):
     if(len(kB[idGame])==1):
         pm(idGame,line_bot_api.get_profile(Uid).display_name+' kalah.Lol')
         #memberhentikan game
-        hapusDirAman('static/'+idGame+'-'+waktuMulai[idGame],uId)
         waktuMulai = helperData.buka('static/var/'+'waktuMulai')
+        hapusDirAman('static/'+idGame+'-'+waktuMulai[idGame],uId)
         kB = helperData.buka('static/var/'+'kB')
         turn = helperData.buka('static/var/'+'turn')
         urutanMain = helperData.buka('static/var/'+'urutanMain')
