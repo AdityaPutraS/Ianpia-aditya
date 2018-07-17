@@ -148,10 +148,11 @@ def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
     turn = helperData.buka('static/var/'+'turn')
     urutanMain = helperData.buka('static/var/'+'urutanMain')
+    tokenImagemap = strftime("%M%S", gmtime())
     if(len(tIM)>=50):
         #kasus spesial
-        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+str(turn[idGame])
-        path2='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+'_2'+str(turn[idGame])
+        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+tokenImagemap
+        path2='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+'_2'+tokenImagemap
         buatDirAman(path1)
         buatDirAman(path2)
         letak1 = helperKartu.genImagemap(path1,tIM[:25])
@@ -175,7 +176,7 @@ def gambarImagemap(idGame,uID,tIM):
         line_bot_api.push_message(uID,pesan)
     else:
         aksi = []
-        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+str(turn[idGame])
+        path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+tokenImagemap
         buatDirAman(path1)
         letak = helperKartu.genImagemap(path1,tIM)
         for let in letak:
