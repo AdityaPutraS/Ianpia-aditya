@@ -463,8 +463,8 @@ def handle_message(event):
                 del urutanMain[idGame]
                 del pilihan[idGame]
                 del bohong[idGame]
-                helperData.simpan(waktuMulai,'static/var/'+'waktuMulai)
-                helperData.simpan(stackGame,'static/var/'+'stackGame)
+                helperData.simpan(waktuMulai,'static/var/'+'waktuMulai')
+                helperData.simpan(stackGame,'static/var/'+'stackGame')
                 helperData.simpan(lastPlayer,'static/var/'+'lastPlayer')
                 helperData.simpan(curCard,'static/var/'+'curCard')
                 helperData.simpan(bohong,'static/var/'+'bohong')
