@@ -173,7 +173,6 @@ def gambarImagemap(idGame,uID,tIM):
                 TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
                 ]
         line_bot_api.push_message(uID,pesan)
-        )
     else:
         aksi = []
         path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+str(turn[idGame])
@@ -188,7 +187,6 @@ def gambarImagemap(idGame,uID,tIM):
                 TextSendMessage(text = 'Sekarang giliran '+line_bot_api.get_profile(urutanMain[idGame][turn[idGame]]))
                 ]
         line_bot_api.push_message(uID,pesan)
-        )
 def tanya(idGame,Uid):
     kB = helperData.buka('static/var/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
