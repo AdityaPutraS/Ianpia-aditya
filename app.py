@@ -488,7 +488,7 @@ def handle_message(event):
                 helperData.simpan(kB,'static/var/'+'kB')
                 helperData.simpan(pilihan,'static/var/'+'pilihan')
                 helperData.simpan(urutanMain,'static/var/'+'urutanMain')
-                pm(idGame,'Selamat, +line_bot_api.get_profile(uId).display_name+' menang')
+                pm(idGame,'Selamat, '+line_bot_api.get_profile(uId).display_name+' menang')
                 pm(idGame,'Kartu sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting)')
                 #turn tetap karena 1 player baru saja menang
             else:
