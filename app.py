@@ -130,7 +130,7 @@ def handle_postback(event):
                             if(pemain == sumber):
                                 pass
                             else:
-                                pc(pemain,'Giliran ganti menjadi '+line_bot_api.get_profile(sumber).display_name)
+                                pm(pemain,'Giliran ganti menjadi '+line_bot_api.get_profile(sumber).display_name)
                         pm(idGame,'Kartu sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting)')
                         bohong[idGame] = False
                         helperData.simpan(bohong,'static/var/'+'bohong')
@@ -220,8 +220,45 @@ def gambarImagemap(idGame,uID,tIM):
 def tanya(idGame,Uid):
     kB = helperData.buka('static/var/'+'kB')
     kartuDiTangan = kB[idGame][Uid]
-    pm(Uid,'Sekarang giliramu')
-    gambarImagemap(idGame,Uid,kartuDiTangan)
+    #cek apakah dia kalah
+    if(len(kB[idGame])==1):
+        pm(idGame,line_bot_api.get_profile(Uid).display_name+' kalah.Lol')
+        #memberhentikan game
+        hapusDirAman('static/'+idGame+'-'+waktuMulai[idGame],uId)
+        waktuMulai = helperData.buka('static/var/'+'waktuMulai')
+        kB = helperData.buka('static/var/'+'kB')
+        turn = helperData.buka('static/var/'+'turn')
+        urutanMain = helperData.buka('static/var/'+'urutanMain')
+        pilihan = helperData.buka('static/var/'+'pilihan')
+        bohong = helperData.buka('static/var/'+'bohong')
+        curCard = helperData.buka('static/var/'+'curCard')
+        lastPlayer = helperData.buka('static/var/'+'lastPlayer')
+        stackGame = helperData.buka('static/var/'+'stackGame')
+        mulai = helperData.buka('static/var/'+'mulai')
+        del mulai[idGame]
+        del waktuMulai[idGame]
+        del stackGame[idGame]
+        del lastPlayer[idGame]
+        del curCard[idGame]
+        del kB[idGame]
+        del turn[idGame]
+        del urutanMain[idGame]
+        del pilihan[idGame]
+        del bohong[idGame]
+        helperData.simpan(mulai,'static/var/'+'mulai')
+        helperData.simpan(waktuMulai,'static/var/'+'waktuMulai')
+        helperData.simpan(stackGame,'static/var/'+'stackGame')
+        helperData.simpan(lastPlayer,'static/var/'+'lastPlayer')
+        helperData.simpan(curCard,'static/var/'+'curCard')
+        helperData.simpan(bohong,'static/var/'+'bohong')
+        helperData.simpan(kB,'static/var/'+'kB')
+        helperData.simpan(turn,'static/var/'+'turn')
+        helperData.simpan(urutanMain,'static/var/'+'urutanMain')
+        helperData.simpan(pilihan,'static/var/'+'pilihan')
+        pm(idGame,'Game berhenti')
+    else:
+        pm(Uid,'Sekarang giliramu')
+        gambarImagemap(idGame,Uid,kartuDiTangan)
 def pm(id,isi):
     line_bot_api.push_message(id,TextSendMessage(text=isi))
 def getidGame(event):
