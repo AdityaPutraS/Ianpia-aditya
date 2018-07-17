@@ -146,7 +146,7 @@ def hapusSemuaImagemap(idGame):
         hapusDirAman(path1+i)
 def gambarImagemap(idGame,uID,tIM):
     waktuMulai = helperData.buka('static/var/'+'waktuMulai')
-    turn = helperData.buka('static/var'+'turn')
+    turn = helperData.buka('static/var/'+'turn')
     if(len(tIM)>=50):
         #kasus spesial
         path1='static/'+idGame+'-'+waktuMulai[idGame]+'/'+uID+str(turn[idGame])
