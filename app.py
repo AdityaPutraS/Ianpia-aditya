@@ -131,6 +131,7 @@ def handle_postback(event):
                                 pass
                             else:
                                 pm(pemain,'Giliran ganti menjadi '+line_bot_api.get_profile(sumber).display_name)
+                        curCard = helperData.buka('static/var/'+'curCard')
                         pm(idGame,'Kartu sekarang adalah : '+curCard[idGame]+' (hati,wajik,sekop,keriting)')
                         bohong[idGame] = False
                         helperData.simpan(bohong,'static/var/'+'bohong')
