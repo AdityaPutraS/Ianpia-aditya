@@ -30,7 +30,7 @@ Karena 2 kartu tersebut bukan Jack maka pemain yang berbohong tersebut harus men
 
 - Jika ada pemain yang curiga, lalu ia berkata '**Bohong**' namun ternyata kartu yang baru saja ditambahkan ke tumpukan sesuai urutannya maka ia harus mengambil semua kartu di tumpukan dan game berjalan seperti biasa
 
-- Seorang pemain dikatakan menang jika kartu di tangannya habis
+- Seorang pemain dikatakan **menang** jika kartu di tangannya habis
 
 - Game berakhir saat tersisa 1 pemain, pemain yang tersisa tersebut secara automatis **kalah**
 
@@ -42,41 +42,42 @@ Untuk memulai permainan ketik **.kartuBohong**, bot akan memberikan tombol join 
     **Note : <br />
             - ingat untuk tambahkan bot sebagai teman sebelum bergabung<br />
              - jumlah pemain maksimal adalah 7 orang dan minimal 2 orang** <br />
-Ketika semua pemain telah gabung, ketik **.mulai** untuk memulai permainan <br />
-Setelah dimulai, bot akan memberi tahu urutan permainan di grup dan kartu dari setiap pemain melalui 1:1 chat 
-![Mulai](doc/mulai.jpg)
+- Ketika semua pemain telah gabung, ketik **.mulai** untuk memulai permainan <br />
+ Setelah dimulai, bot akan memberi tahu urutan permainan di grup dan kartu dari setiap pemain melalui 1:1 chat 
+ ![Mulai](doc/mulai.jpg)
 
-Di 1:1 chat dengan bot, pemain akan mendapatkan gambar setiap kartu yang dimilikinya dalam bentuk Imagemap yang bisa diklik. <br />
-Klik kartu yang ingin ditambah ke tumpukkan (minimal 1, maksimal 4 kartu)
-![Awal](doc/awalMain.jpg)
+- Di 1:1 chat dengan bot, pemain akan mendapatkan gambar setiap kartu yang dimilikinya dalam bentuk Imagemap yang bisa diklik. <br />
+ Klik kartu yang ingin ditambah ke tumpukkan (minimal 1, maksimal 4 kartu)
+ ![Awal](doc/awalMain.jpg)
 
-Setelah itu bot akan memberi pilihan untuk submit ke tumpukan atau ulang pilih kartu
-![Kartu awal](doc/memilihDanSubmit.jpg)
+- Setelah itu bot akan memberi pilihan untuk submit ke tumpukan atau ulang pilih kartu
+ ![Kartu awal](doc/memilihDanSubmit.jpg)
 
-Selain mengklik submit pemain juga bisa mengetik '**Gaskeun Bosq**' untuk submit
+ Selain mengklik submit pemain juga bisa mengetik '**Gaskeun Bosq**' untuk submit
 
-Jika pemain memilih untuk mengulang maka pemain bisa mengklik tombol **Ulang** atau bisa juga mengetik **Aku mau ulang**, setelah itu pemain bisa mengeklik kembali kartu yang diinginkan
-![Ulang](doc/ulangPilih.jpg)
+- Jika pemain memilih untuk mengulang maka pemain bisa mengklik tombol **Ulang** atau bisa juga mengetik **Aku mau ulang**.<br />
+ Setelah itu pemain bisa mengeklik kembali kartu yang diinginkan<br />
+ ![Ulang](doc/ulangPilih.jpg)
 
-Jika sudah memilih dan mensubmit kartu ke tumpukan, di grup akan muncul pesan seperti berikut 
-![Grup](doc/menambahKartu.jpg)
+- Jika sudah memilih dan mensubmit kartu ke tumpukan, di grup akan muncul pesan seperti berikut 
+ ![Grup](doc/menambahKartu.jpg)
 
-Di grup juga muncul tombol **Bohong** untuk menuduh pemain yang terakhir menambahkan ke tumpukan 
-Jika di klik akan ada 2 kemungkinan yang muncul yaitu
-   Pemain terakhir **berbohong**<br />
-![Bohong](doc/bohong.jpg)
+- Di grup juga muncul tombol **Bohong** untuk menuduh pemain yang terakhir menambahkan ke tumpukan 
+ Jika di klik akan ada 2 kemungkinan yang muncul yaitu<br />
+  - Pemain terakhir **berbohong**<br />
+  ![Bohong](doc/bohong.jpg)
 
-   Pemain terakhir **jujur**<br />
-![Menuduh](doc/menuduh.jpg)
+  - Pemain terakhir **jujur**<br />
+  ![Menuduh](doc/menuduh.jpg)
 
-Ketika salah satu pemain telah menghabiskan kartunya maka ia **menang** dan dikeluarkan dari permainan 
-Jika sisa pemain hanyalah 1, maka pemain terakhir tersebut automatis **kalah**
-![Akhir](doc/akhir.jpg)
+- Ketika salah satu pemain telah menghabiskan kartunya maka ia **menang** dan dikeluarkan dari permainan 
+ Jika sisa pemain hanyalah 1, maka pemain terakhir tersebut automatis **kalah**<br />
+ ![Akhir](doc/akhir.jpg)
 
-Selain itu, game juga bisa diberhentikan di tengah tengah dengan perintah **.berhenti**
-![berhenti](doc/berhenti.jpg)
+- Selain itu, game juga bisa diberhentikan di tengah tengah dengan perintah **.berhenti**
+ ![berhenti](doc/berhenti.jpg)
 
 ### Kontak
 Jika ada masalah, bisa ditulis di bagian **Issue** di repo ini, atau bisa juga dengan mengontak saya di:<br />
-    - **Line : adityaputrasantosa** <br />
+    - **Line  : adityaputrasantosa** <br />
     - **Email : adityaputra159@gmail.com**<br />
