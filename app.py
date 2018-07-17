@@ -313,6 +313,7 @@ def handle_message(event):
         lastPlayer = helperData.buka('static/var/'+'lastPlayer')
         mulai = helperData.buka('static/var/'+'mulai')
         menang = helperData.buka('static/var/'+'menang')
+        pilihan = helperData.buka('static/var/'+'pilihan')
         if(isinstance(event.source,SourceGroup) or isinstance(event.source,SourceRoom)):
             dataGameKartu = 'KB '+idGame
             if(idGame in kB):
@@ -330,6 +331,8 @@ def handle_message(event):
                 lastPlayer[idGame] = ''
                 curCard[idGame] = helperKartu.urutan[0]
                 bohong[idGame] = False
+                pilihan[idGame] = {}
+                helperData.simpan(pilihan,'static/var/'+'pilihan')
                 helperData.simpan(menang,'static/var/'+'menang')
                 helperData.simpan(mulai,'static/var/'+'mulai')
                 helperData.simpan(lastPlayer,'static/var/'+'lastPlayer')
@@ -363,9 +366,6 @@ def handle_message(event):
                     turn = helperData.buka('static/var/'+'turn')
                     kB = helperData.buka('static/var/'+'kB')
                     urutanMain = helperData.buka('static/var/'+'urutanMain')
-                    pilihan = helperData.buka('static/var/'+'pilihan')
-                    
-                    pilihan[idGame] = {}
                     banyakPemain = len(kB[idGame])
                     tmpKartu = helperKartu.bagiKartu(banyakPemain)
                     no = 0
@@ -385,7 +385,6 @@ def handle_message(event):
                     helperData.simpan(kB,'static/var/'+'kB')
                     helperData.simpan(turn,'static/var/'+'turn')
                     helperData.simpan(urutanMain,'static/var/'+'urutanMain')
-                    helperData.simpan(pilihan,'static/var/'+'pilihan')
                     idFirst = urutanMain[idGame][0]
                     namaFirst = line_bot_api.get_profile(idFirst).display_name
                     for pemain in urutanMain[idGame]:
