@@ -77,6 +77,7 @@ Untuk memulai permainan ketik **.kartuBohong**, bot akan memberikan tombol join 
 - Selain itu, game juga bisa diberhentikan di tengah tengah dengan perintah **.berhenti**
  ![berhenti](doc/berhenti.jpg)
 
+
 ### Kontak
 Jika ada masalah, bisa ditulis di bagian **Issue** di repo ini, atau bisa juga dengan mengontak saya di:<br />
     - **Line  : adityaputrasantosa** <br />
